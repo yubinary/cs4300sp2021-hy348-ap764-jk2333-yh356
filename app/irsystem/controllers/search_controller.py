@@ -47,7 +47,7 @@ def search():
     p6 = request.args.get('personality6')
     p7 = request.args.get('personality7')
     p8 = request.args.get('personality8')
-    scale = [0, 1, 2, 3, 4, 5]
+    scale = [1, 2, 3, 4, 5]
     flavor = request.args.get('flavor')
     scent = request.args.get('scent')
     price = request.args.get('price')
