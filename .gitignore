@@ -7,3 +7,8 @@ vagrant/a4keypair.pem
 .idea/
 *.iml\
 __pycache__
+app/irsystem/controllers/winemag*
+.vscode/
+.DS_Store
+app/.DS_Store
+app/irsystem/.DS_Store
