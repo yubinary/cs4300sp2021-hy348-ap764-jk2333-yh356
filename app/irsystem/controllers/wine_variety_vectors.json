@@ -70,7 +70,7 @@
       ]
     },
     {
-      "variety": "Reisling",
+      "variety": "Riesling",
       "personality_vector": [
         2,
         3,
@@ -130,7 +130,7 @@
       ]
     },
     {
-      "variety": "Champagne",
+      "variety": "Champagne Blend",
       "personality_vector": [
         4,
         5,
@@ -154,7 +154,7 @@
       ]
     },
     {
-      "variety": "Carmenere",
+      "variety": "Carmenère",
       "personality_vector": [
         2,
         4,
@@ -234,18 +234,6 @@
         3,
         4,
         5,
-        5
-      ]
-    },
-    {
-      "variety": "Mourvedre",
-      "personality_vector": [
-        1,
-        2,
-        1,
-        3,
-        5,
-        4,
         5
       ]
     }

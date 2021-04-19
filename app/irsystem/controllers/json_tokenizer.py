@@ -26,14 +26,16 @@ df = pd.DataFrame(data)
 df.drop_duplicates()
 
 varieties = [
-    'Mourvedre', 'Gamay', 'Cabernet Franc', 'Syrah', 'Petit Verdot', 'Barbera',
-    'Nebbiolo', 'Grenache', 'Tempranillo', 'Sangiovese', 'Carmenere',
-    'Moscato', 'Champagne', 'Pinot Noir', 'Pinot Grigio', 'Cabernet Sauvignon',
-    'Chardonnary', 'Riesling', 'Ros\u00e9', 'Malbec', 'White Zinfandel',
+    'Cabernet Franc', 'Syrah',
+    'Nebbiolo', 'Grenache', 'Tempranillo', 'Sangiovese', 'Carmen\u00e8re',
+    'Moscato', 'Champagne Blend', 'Pinot Noir', 'Pinot Grigio', 'Cabernet Sauvignon',
+    'Chardonnay', 'Riesling', 'Ros\u00e9', 'Malbec', 'Zinfandel',
     'Sauvignon Blanc', 'Merlot'
 ]
 df = df[df['variety'].isin(varieties)]
+
 df = df.sample(n=10000)
+
 # Tokenize description and add to df as "toks"
 toks = []
 for i in df["description"]:
