@@ -7,7 +7,7 @@ import nltk
 from nltk.tokenize import TreebankWordTokenizer
 from nltk.corpus import stopwords
 
-nltk.download('stopwords')
+# nltk.download('stopwords')
 
 stopwords = set(stopwords.words('english'))
 
