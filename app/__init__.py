@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import Flask, render_template
 import os
 from gevent import monkey
+from flask_cors import CORS
 monkey.patch_all()
 
 # Imports
@@ -13,6 +14,7 @@ monkey.patch_all()
 socketio = SocketIO()
 # app = Flask(__name__)
 app = Flask(__name__, template_folder="build", static_folder="build/static")
+CORS(app)
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
