@@ -4,9 +4,18 @@ import Search from "../components/Search.js";
 import "../styles/App.css";
 
 export default function Home() {
+  const [name, setName] = useState('');
+  const [personality, setPersonality] = useState("");
+  const [flavor, setFlavor] = useState('');
+  const [scent, setScent] = useState('');
+  const [price, setPrice] = useState('');
+
   return (
     <div>
-      <Search />
+      <Search
+        name={name} personality={personality} flavor={flavor} scent={scent} price={price}
+        setName={setName} setPersonality={setPersonality} setFlavor={setFlavor} setScent={setScent} setPrice={setPrice}
+      />
       <Landing />
     </div>
   );
