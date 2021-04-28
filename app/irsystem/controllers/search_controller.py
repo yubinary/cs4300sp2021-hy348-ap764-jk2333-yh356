@@ -83,3 +83,9 @@ def search():
                            scale=scale,
                            personality_match=personality_match,
                            wine_match=wine_match)
+
+
+@irsystem.route('/', defaults={'path': ''})
+@irsystem.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")
