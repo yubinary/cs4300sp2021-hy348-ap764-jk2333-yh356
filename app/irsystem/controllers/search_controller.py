@@ -79,6 +79,7 @@ inv_ind_person, idf_person, norms_person = precompute_personality(
 @irsystem.route('/search', methods=['GET'])
 def search():
     name = request.args.get('name')
+    # personality = request.args.getAll('personality')
     p1 = request.args.get('personality1')
     p2 = request.args.get('personality2')
     p3 = request.args.get('personality3')
@@ -87,11 +88,19 @@ def search():
     p6 = request.args.get('personality6')
     p7 = request.args.get('personality7')
     p8 = request.args.get('personality8')
-    # scale = [1, 2, 3, 4, 5]
+    scale = [1, 2, 3, 4, 5]
     flavor = request.args.get('flavor')
     scent = request.args.get('scent')
     price = request.args.get('price')
     print(price)
+
+    # responses = []
+    # for p in personality:
+    #     if p == '':
+    #         personality_match = ''
+    #         wine_match = ''
+    #     else:
+    #         responses.append(int(p))
 
     if not p1 or not p2 or not p3 or not p4 or not p5 or not p6 or not p7 or not p8:
         personality_match = ''
