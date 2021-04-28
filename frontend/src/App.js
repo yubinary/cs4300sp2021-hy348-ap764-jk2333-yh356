@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import Landing from "./components/Landing.js";
+import Search from "./components/Search.js";
 
-function App() {
-  return <div className='App'>hello this is react.</div>;
+import "./styles/App.css";
+
+export default function App() {
+  return (
+    <div>
+      <Landing />
+      <Search />
+    </div>
+  );
 }
-
-export default App;
