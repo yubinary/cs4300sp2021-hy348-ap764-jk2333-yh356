@@ -36,7 +36,7 @@ inv_ind_person, idf_person, norms_person = precompute_personality(
 # 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
-@irsystem.route('/', methods=['GET'])
+@irsystem.route('/prototype1', methods=['GET'])
 def search():
     name = request.args.get('name')
     p1 = request.args.get('personality1')
