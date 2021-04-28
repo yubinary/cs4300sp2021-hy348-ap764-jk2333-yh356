@@ -11,7 +11,7 @@ export default function Home() {
   const [price, setPrice] = useState('');
 
   return (
-    <div>
+    <div className="Home">
       <Search
         name={name} personality={personality} flavor={flavor} scent={scent} price={price}
         setName={setName} setPersonality={setPersonality} setFlavor={setFlavor} setScent={setScent} setPrice={setPrice}
