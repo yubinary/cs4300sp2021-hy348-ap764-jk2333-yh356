@@ -1,0 +1,26 @@
+.Home, .ResultPage{
+  display:flex;
+}
+
+.Search{
+  width: 50%;
+  padding: 30px;
+  background-color: rgb(174, 228, 228);
+}
+
+.Landing{
+  width: 50%;
+  min-height: 1000px;
+  padding: 30px;
+  background-color: rgb(219, 166, 164);
+}
+
+.Result{
+  width: 50%;
+  padding: 30px;
+  background-color: rgb(209, 219, 164);
+}
+
+.form-group{
+  padding: 10px;
+}

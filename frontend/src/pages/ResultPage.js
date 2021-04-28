@@ -36,7 +36,7 @@ export default function ResultPage() {
   }, [window.location.search])
 
   return (
-    <div>
+    <div className="ResultPage">
       <Search
         name={name} personality={personality} flavor={flavor} scent={scent} price={price}
         setName={setName} setPersonality={setPersonality} setFlavor={setFlavor} setScent={setScent} setPrice={setPrice}
