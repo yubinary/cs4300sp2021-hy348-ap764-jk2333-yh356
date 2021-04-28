@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default function Search() {
-  const [name, setName] = useState('');
-  const [personality, setPersonality] = useState('');
-  const [flavor, setFlavor] = useState('');
-  const [scent, setScent] = useState('');
-  const [price, setPrice] = useState('');
-
+export default function Search({ name, personality, flavor, scent, price, setName, setPersonality, setFlavor, setScent, setPrice }) {
   let history = useHistory();
   const [displayErrorMessage, setDisplay] = useState(false);
 

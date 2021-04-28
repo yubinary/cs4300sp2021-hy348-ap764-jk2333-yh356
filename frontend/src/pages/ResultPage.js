@@ -6,7 +6,6 @@ import "../styles/App.css";
 
 export default function ResultPage() {
   const URLParams = new URLSearchParams(window.location.search);
-
   const [name, setName] = useState('');
   const [personality, setPersonality] = useState("");
   const [flavor, setFlavor] = useState('');
@@ -38,7 +37,10 @@ export default function ResultPage() {
 
   return (
     <div>
-      <Search />
+      <Search
+        name={name} personality={personality} flavor={flavor} scent={scent} price={price}
+        setName={setName} setPersonality={setPersonality} setFlavor={setFlavor} setScent={setScent} setPrice={setPrice}
+      />
       <Result pm={PM} wm={WM} />
     </div>
   );
