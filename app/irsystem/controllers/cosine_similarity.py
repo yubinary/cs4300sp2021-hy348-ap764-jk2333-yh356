@@ -292,13 +292,13 @@ def display(query, wine_scores, sim_list, reviews, num, max_price):
     counter = 1
     dup_list = []
     if len(sim_list) == 0:
-        print("A surprise to be sure, but a welcome one. It appears that no bottle of wine is special enough to match your unique personality! Take pride in the fact that there is no one like you!")
+        print(
+            "A surprise to be sure, but a welcome one. It appears that no bottle of wine is special enough to match your unique personality! Take pride in the fact that there is no one like you!"
+        )
         print()
     else:
-        if len(sim_list) < num:  # this prevents an infinite loop
-            num = len(sim_list)
-        while len(dup_list) < num:
-            if i >= len(sim_list):  # prevents index out of bounds
+        while len(dup_list) < num and i < len(sim_list):
+            if i >= len(sim_list):
                 break
             idx = sim_list[i][1]
             variety = reviews["variety"][idx]
@@ -307,20 +307,22 @@ def display(query, wine_scores, sim_list, reviews, num, max_price):
             if variety == wine_scores[0][1] and price <= float(max_price):
                 if title not in dup_list:
                     dup_list.append(title)
-                    score = round(sim_list[i][0]*100, 1)
+                    score = round(sim_list[i][0] * 100, 1)
                     desc = reviews["description"][idx]
                     price = reviews["price"][idx]
                     print("[" + str(score) + "%] " + title)
                     stringed_traits = string_traits(sim_list[i][2])
-                    print(
-                        "The keywords that matched you to this wine: " + stringed_traits)
+                    print("The keywords that matched you to this wine: " +
+                          stringed_traits)
                     print(desc)
                     print("The price of this wine is: $", price)
                     print()
                     counter += 1
             i += 1
         if len(dup_list) == 0:
-            print("It appears that in your quest to obtain an affordable wine, you have accidentally eliminated everything eligible!")
+            print(
+                "It appears that in your quest to obtain an affordable wine, you have accidentally eliminated everything eligible!"
+            )
             print()
 
 
