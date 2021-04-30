@@ -1,4 +1,5 @@
 # from json_reader import json_read_vector
+from json_reader import *
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -110,21 +111,42 @@ def generate_personality_vec(legend):
     return np.array(p_vec)
 
 
+def key_traits(v1, v2, legend):
+    """
+    Returns a list of the most traits that make v1 and v2 most similar,
+    according to legend
+    """
+    diff = np.absolute(np.subtract(v1, v2))
+    diff_trait = []
+    for i in range(len(diff)):
+        diff_trait.append((diff[i], legend[i]))
+    diff_trait.sort(key=lambda x: x[0])
+
+    min_diff = diff_trait[0][0]
+    output = []
+    for i in diff_trait:
+        if i[0] == min_diff:
+            output.append(i[1])
+    return output
+
+
 def similar_varieties(legend, index, mat):
     """
     Takes legend, index, mat, and then prompts user for user personality vector
-    and returns a sorted tuple list in the format of (score, wine_variety) in
-    order of relevance.
+    and returns a sorted tuple list in the format of
+    (score, wine_variety, keywords) in order of relevance.
     """
     scores = []
     user = generate_personality_vec(legend)
     for i in range(len(mat)):
         a = cosine_similarity([user], [mat[i]])
-        scores.append((a[0][0], index[i]))
+        traits = key_traits(user, mat[i], legend)
+        scores.append((a[0][0], index[i], traits))
     scores.sort(key=lambda x: x[0], reverse=True)
     return scores
 
 
+# i think this is dead code
 def compute_personality_vec(legend, index, mat, responses):
     scores = []
 
@@ -193,3 +215,7 @@ def compute_personality_vec(legend, index, mat, responses):
     scores.sort(key=lambda x: x[0], reverse=True)
 
     return scores
+
+# test stuff
+#legend, index, mat = json_read_vector("wine_variety_vectors.json")
+#print(similar_varieties(legend, index, mat))
