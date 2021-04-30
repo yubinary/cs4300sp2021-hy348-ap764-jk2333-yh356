@@ -342,7 +342,6 @@ def display_personality(query, sim_list, reviews):
     while len(dup_list) < 3:
         # create string of list of traits
         stringed_traits = string_traits(sim_list[i][2])
-
         title = sim_list[i][1]
         dup_list.append(title)
         score = round(sim_list[i][0] * 100, 1)
@@ -377,6 +376,8 @@ def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
                 # score = round(sim_list[i][0]*100, 1)
                 desc = reviews["description"][idx]
                 price = reviews["price"][idx]
+                stringed_traits = string_traits(sim_list[i][2])
+                desc = "The keyword(s) that matched you to this wine: " + stringed_traits + ". " + desc
 
                 # result.append(str(counter) + ". " + title)
                 # result.append(desc + " The price of this wine is $" +
@@ -407,17 +408,21 @@ def compute_personality(query, sim_list, reviews):
     i = 0
     dup_list = []
     while len(dup_list) < 3:
+        stringed_traits = string_traits(sim_list[i][2])
+        # print(sim_list[i])
+        # print(stringed_traits)
         title = sim_list[i][1]
         dup_list.append(title)
         score = round(sim_list[i][0] * 100, 1)
         desc = reviews["personality_description"][inv_dict[title]]
-
+        # desc = "Your key similarities with this variety: " + stringed_traits + ". "
         result = {}
         result["top_wine"] = sim_list[0][1]
         result["top_wine_percent"] = str(round(100 * sim_list[0][0], 1))
         result["score"] = str(score)
         result["wine"] = title
         result["description"] = desc
+        result["key_descriptions"] = stringed_traits
         results.append(result)
         i += 1
 

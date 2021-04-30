@@ -115,6 +115,7 @@ def search():
             int(p8)
         ]
         wine_scores = compute_personality_vec(legend, index, mat, responses)
+        # wine_scores = frontend_similar_varieties(legend, index, mat, responses)
         flavor_result = cossim_dict(flavor, inv_ind, idf, norms)
         scent_result = cossim_dict(scent, inv_ind, idf, norms)
         total = total_score(flavor_result, scent_result)

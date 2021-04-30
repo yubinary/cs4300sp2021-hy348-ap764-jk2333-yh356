@@ -20,6 +20,10 @@ export default function Result({ pm, wm }) {
                 <i>{pm[0].wine}</i>
               </h4>
             </div>
+            <p>
+              Your key similarities with this variety:{' '}
+              <b>{pm[0].key_descriptions}</b>
+            </p>
             <p>{pm[0].description}</p>
           </div>
         </>
@@ -92,6 +96,10 @@ export default function Result({ pm, wm }) {
                 <i>{match.wine}</i>
               </h4>
             </div>
+            <p>
+              Your key similarities with this variety:{' '}
+              <b>{match.key_descriptions}</b>
+            </p>
             <p>{match.description}</p>
           </div>
         );
@@ -115,10 +123,10 @@ export default function Result({ pm, wm }) {
       ) : (
         <div className='wine-match'>
           <p>
-            A surprise to be sure, but a welcome one. It appears that no
-            specific bottle of {pm[0].wine} is special enough to match your
-            unique personality! Take pride in the fact that there is no one like
-            you!
+            Based on your flavor and scent preferences... <br></br>
+            <br></br> A surprise to be sure, but a welcome one. It appears that
+            no specific bottle of wine is special enough to match your unique
+            personality! Take pride in the fact that there is no one like you!
           </p>
         </div>
       )}
