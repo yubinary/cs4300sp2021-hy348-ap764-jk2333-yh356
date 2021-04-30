@@ -39,6 +39,7 @@ while not quit:
 
     flavor_result = cossim_dict(flavor, inv_ind, idf, norms)
     scent_result = cossim_dict(scent, inv_ind, idf, norms)
+
     total = total_score(flavor_result, scent_result)
 
     display_personality(name, wine_scores, df_personality)

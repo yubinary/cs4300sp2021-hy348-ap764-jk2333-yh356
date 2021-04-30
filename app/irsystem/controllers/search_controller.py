@@ -24,7 +24,6 @@ inv_ind_person, idf_person, norms_person = precompute_personality(
 
 ########################### Prototype 1 start ###########################
 
-
 # @irsystem.route('/prototype1', methods=['GET'])
 # def search():
 #     name = request.args.get('name')
@@ -92,7 +91,6 @@ def search():
     flavor = request.args.get('flavor')
     scent = request.args.get('scent')
     price = request.args.get('price')
-    print(price)
 
     # responses = []
     # for p in personality:
@@ -125,15 +123,13 @@ def search():
                                                 df_personality)
         wine_match = compute_wine(name, wine_scores, total, df, 5, price)
 
-    return {
-        "personality_match": personality_match,
-        "wine_match": wine_match
-    }
+    return {"personality_match": personality_match, "wine_match": wine_match}
     # user_name = name,
     # netid = net_id,
     # scale = scale,
     # personality_match = personality_match,
     # wine_match = wine_match
+
 
 # @irsystem.route('/', defaults={'path': ''})
 # @irsystem.route('/<path:path>')
