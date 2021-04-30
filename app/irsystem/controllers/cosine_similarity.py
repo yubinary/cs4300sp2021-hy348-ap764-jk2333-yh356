@@ -3,11 +3,10 @@
 import math
 import numpy as np
 import pandas as pd
-import nltk
 from nltk.tokenize import TreebankWordTokenizer
 from nltk.corpus import stopwords
 
-nltk.download('stopwords')
+# nltk.download('stopwords')
 
 stopwords = set(stopwords.words('english'))
 
@@ -298,8 +297,6 @@ def display(query, wine_scores, sim_list, reviews, num, max_price):
         print()
     else:
         while len(dup_list) < num and i < len(sim_list):
-            if i >= len(sim_list):
-                break
             idx = sim_list[i][1]
             variety = reviews["variety"][idx]
             title = reviews["title"][idx]
