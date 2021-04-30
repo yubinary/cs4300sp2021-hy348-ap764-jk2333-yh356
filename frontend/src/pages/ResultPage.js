@@ -37,11 +37,11 @@ export default function ResultPage() {
 
   return (
     <div className="ResultPage">
+      <Result pm={PM} wm={WM} />
       <Search
         name={name} personality={personality} flavor={flavor} scent={scent} price={price}
         setName={setName} setPersonality={setPersonality} setFlavor={setFlavor} setScent={setScent} setPrice={setPrice}
       />
-      <Result pm={PM} wm={WM} />
     </div>
   );
 }
