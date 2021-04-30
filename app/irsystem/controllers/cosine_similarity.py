@@ -36,7 +36,7 @@ def tokenizer_personality_data(json):
 def tokenizer_personality_variety(json):
     """
     Returns a dictionary where the key is the string index of the personality
-    data (i.e. first data is index 0, so string index is "0") and the value is 
+    data (i.e. first data is index 0, so string index is "0") and the value is
     a list of tokenized words of the variety
     """
     result = dict()
@@ -255,8 +255,8 @@ def precompute_personality(reviews):
 def display(query, wine_scores, sim_list, reviews, num, max_price):
     """
     Takes a query, wine_scores, sim_list output from the cossim() function, the
-    wine reviews df, number of results to return, and maximum price (string) 
-    and prints the output to the terminal. Duplicate entries are caught and 
+    wine reviews df, number of results to return, and maximum price (string)
+    and prints the output to the terminal. Duplicate entries are caught and
     removed. Only varieties of the top type according to wine_scores are printed.
     """
     print("Based on your responses, we believe these particular " +
@@ -274,10 +274,10 @@ def display(query, wine_scores, sim_list, reviews, num, max_price):
         if variety == wine_scores[0][1] and price <= float(max_price):
             if title not in dup_list:
                 dup_list.append(title)
-                #score = round(sim_list[i][0]*100, 1)
+                # score = round(sim_list[i][0]*100, 1)
                 desc = reviews["description"][idx]
                 price = reviews["price"][idx]
-                #print("[" + str(score) + "%] " + title)
+                # print("[" + str(score) + "%] " + title)
                 print(str(counter) + ". " + title)
                 print(desc)
                 print("The price of this wine is: $", price)
@@ -288,7 +288,7 @@ def display(query, wine_scores, sim_list, reviews, num, max_price):
 
 def display_personality(query, sim_list, reviews):
     """
-    Displays the personality - wine variety match 
+    Displays the personality - wine variety match
     """
     print("Based on personality...")
     print("You are a " + str(round(100 * sim_list[0][0], 1)) +
@@ -314,34 +314,13 @@ def display_personality(query, sim_list, reviews):
 
 
 def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
-    """ 
+    """
     Takes a query, wine_scores, sim_list output from the cossim() function, the
     wine reviews df, and number of results to return, and prints the output to
     the terminal. Duplicate entries are caught and removed. Only varieties of
     the top type according to wine_scores are printed.
     """
-    result = []
-    result.append("Based on your responses, we believe these particular " +
-                  wine_scores[0][1] + "s will fit your taste:")
-
-    # i = 0
-    # counter = 1
-    # dup_list = []
-    # while len(dup_list) < num and i < len(sim_list):
-    #     idx = sim_list[i][1]
-    #     variety = reviews["variety"][idx]
-    #     title = reviews["title"][idx]
-    #     if variety == wine_scores[0][1]:
-    #         if title not in dup_list:
-    #             dup_list.append(title)
-    #             #score = round(sim_list[i][0]*100, 1)
-    #             desc = reviews["description"][idx]
-    #             #print("[" + str(score) + "%] " + title)
-    #             result.append(str(counter) + ". " + title)
-    #             result.append(desc)
-    #             counter += 1
-    #     i += 1
-    # return result
+    results = []
 
     i = 0
     counter = 1
@@ -354,26 +333,27 @@ def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
         if variety == wine_scores[0][1] and price <= float(max_price):
             if title not in dup_list:
                 dup_list.append(title)
-                #score = round(sim_list[i][0]*100, 1)
+                # score = round(sim_list[i][0]*100, 1)
                 desc = reviews["description"][idx]
                 price = reviews["price"][idx]
-                #print("[" + str(score) + "%] " + title)
-                result.append(str(counter) + ". " + title)
-                result.append(desc + " The price of this wine is $" +
-                              str(int(price)))
+
+                # print("[" + str(score) + "%] " + title)
+                result = {}
+                result["top_wine"] = wine_scores[0][1]
+                result["price"] = str(int(price))
+                result["wine"] = title
+                result["description"] = desc
+                results.append(result)
                 counter += 1
         i += 1
-    return result
+    return results
 
 
 def compute_personality(query, sim_list, reviews):
     """
-    Displays the personality - wine variety match 
+    Displays the personality - wine variety match
     """
-    result = []
-    result.append("Based on personality...")
-    result.append("You are a " + str(round(100 * sim_list[0][0], 1)) +
-                  "% match with " + sim_list[0][1] + "!")
+    results = []
 
     # build inverted dict
     inv_dict = {}
@@ -387,10 +367,17 @@ def compute_personality(query, sim_list, reviews):
         dup_list.append(title)
         score = round(sim_list[i][0] * 100, 1)
         desc = reviews["personality_description"][inv_dict[title]]
-        result.append("[" + str(score) + "%] " + title)
-        result.append(desc)
+
+        result = {}
+        result["top_wine"] = sim_list[0][1]
+        result["top_wine_percent"] = str(round(100 * sim_list[0][0], 1))
+        result["score"] = str(score)
+        result["wine"] = title
+        result["description"] = desc
+        results.append(result)
         i += 1
-    return result
+
+    return results
 
 
 def compute_outputs(query, sim_list, reviews, num):
