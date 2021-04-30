@@ -1,26 +1,156 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:100,300,400,500,700,900");
+
+/* General */
+* {
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}
+
 .Home, .ResultPage{
-  display:flex;
+  display: flex;
 }
 
+/* Search */
 .Search{
+  position: fixed;
+  left: 50%;
+  background-image: url("image1.jpg");
+  background-size: cover;
+  height: 100vh;
   width: 50%;
-  padding: 30px;
-  background-color: rgb(174, 228, 228);
 }
 
-.Landing{
-  width: 50%;
-  min-height: 1000px;
+form{
+  position: fixed;
+  top: 50%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  height: 500px;
+  border-radius: 20px;
   padding: 30px;
-  background-color: rgb(219, 166, 164);
+  background-color: rgba(245, 245, 245, 0.938);
+  box-shadow: 0 -2px 50px 0 rgba(32, 32, 32, 0.295);
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
 }
 
-.Result{
-  width: 50%;
-  padding: 30px;
-  background-color: rgb(209, 219, 164);
+label, .form-group, form p{
+  margin-bottom: 0px;
 }
 
 .form-group{
-  padding: 10px;
+  width: 100%;
+}
+
+form p{
+  color: rgb(153, 153, 153);
+}
+
+.scale{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.scale p{
+  padding: 0px 5px;
+  margin: auto;
+  font-size: 10px;
+}
+.radios{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.radios .radio{
+  padding: 0px 5px;
+  margin: auto;
+}
+
+/* Landing */
+.Landing, .Result{
+  min-height: 100vh;
+  width: 50%;
+  background-color: rgb(245, 245, 245);
+}
+
+.Landing .text{
+  padding: 40px 50px;
+}
+
+.Landing h1{
+  line-height: 1.1;
+  margin: 0px;
+  width: 500px;
+  font-size: 50px;
+  font-weight: 800;
+}
+
+.Landing p{
+  line-height: 1.5;
+  width: 400px;
+  font-size: 18px;
+  margin: 15px 0px;
+}
+
+.logo{
+  margin: 30px 0px 0px 50px;
+  width: 80px;
+}
+
+/* Result */
+.personality-match{
+  padding: 50px;
+}
+
+.wine-match, .personality-other{
+  padding: 0px 50px 50px 50px;
+}
+
+.wine-match-intro{
+  padding: 0px 50px;
+}
+
+.pm, .wm{
+  background-color: rgb(255, 255, 255);
+  border-radius: 13px;
+  padding: 20px;
+  margin: 20px 0px;
+}
+
+.top{
+  background-color: rgb(231, 231, 231);
+}
+
+.wm{
+  color: rgb(255, 255, 255);
+  height: 420px;
+  background-color: rgb(156, 156, 156);
+}
+
+.wm h5{
+  font-size: 18px;
+}
+
+.wine-match, .pm-intro{
+  display: flex;
+  text-align: center;
+}
+
+.col{
+  flex-grow: 1;
+  padding: 0px;
+}
+
+.left{
+  margin-right: 20px;
+}
+
+.score{
+  background-color: black;
+  color: white;
+  margin-right: 10px;
+  padding: 5px;
+  font-size: 15px;
 }
