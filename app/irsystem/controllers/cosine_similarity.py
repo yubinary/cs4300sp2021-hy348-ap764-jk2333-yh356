@@ -257,7 +257,7 @@ def analyze_scores(scores):
     for key in scores.keys():
         agg += scores[key]
         counter += 1
-    return agg/counter
+    return agg / counter
 
 
 def total_score(dict1, dict2, scores):
@@ -296,7 +296,7 @@ def total_score(dict1, dict2, scores):
         # this is weighting algorithm: calculate the mean of all wine scores
         # and find the percentage (score-mean). add this delta percentage to
         # the cossim percentage score.
-        delta = (score - mean)/100
+        delta = (score - mean) / 100
         sim = sim + delta
 
         weighted_result.append((sim, key, keywords))
@@ -448,13 +448,14 @@ def compute_wine(wine_scores, sim_list, reviews, num, max_price):
         if variety == wine_scores[0][1] and price <= float(max_price):
             if title not in dup_list:
                 dup_list.append(title)
-                # score = round(sim_list[i][0]*100, 1)
+                score = round(sim_list[i][0] * 100, 1)
                 desc = reviews["description"].get(key=str(idx))
                 price = reviews["price"].get(key=str(idx))
                 stringed_traits = string_traits(sim_list[i][2])
                 desc = "The keyword(s) that matched you to this wine: " + \
                     stringed_traits + ". " + desc
                 result = {}
+                result["score"] = score
                 result["doc_id"] = idx
                 result["top_wine"] = wine_scores[0][1]
                 result["price"] = str(int(price))

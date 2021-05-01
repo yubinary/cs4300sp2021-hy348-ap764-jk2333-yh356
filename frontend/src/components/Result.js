@@ -98,6 +98,7 @@ export default function Result({ pm, wm }) {
               <i>{wines[i].wine}</i>
             </h5>
             <p>{'$' + wines[i].price}</p>
+            <p>{wines[i].score}% match</p>
             <p>{wines[i].description}</p>
             {displayLike(wines, i)}
           </div>
@@ -135,6 +136,7 @@ export default function Result({ pm, wm }) {
               <i>{wines[i].wine}</i>
             </h5>
             <p>{'$' + wines[i].price}</p>
+            <p>{wines[i].score}% match</p>
             <p>{wines[i].description}</p>
             {displayLike(wines, i)}
           </div>
