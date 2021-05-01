@@ -8,8 +8,8 @@ from flask import Blueprint
 #                      template_folder='../templates')
 irsystem = Blueprint('irsystem',
                      __name__,
-                     static_folder='../static',
-                     template_folder='../templates/',
+                     static_folder='../frontend/build/static',
+                     template_folder='../frontend/build',
                      url_prefix='/api')
 # Import all controllers
 from .controllers.search_controller import *
