@@ -14,7 +14,9 @@ monkey.patch_all()
 # Configure app
 socketio = SocketIO()
 # app = Flask(__name__)
-app = Flask(__name__)
+app = Flask(__name__,
+            template_folder="../frontend/build",
+            static_folder="../frontend/build/static")
 CORS(app)
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -35,7 +37,6 @@ def not_found(error):
     return render_template("404.html"), 404
 
 
-@app.route('/', methods=['GET'], defaults={'path': ''})
-@app.route('/<path:path>')
-def index(path):
+@app.route('/', methods=['GET'])
+def index():
     return render_template("index.html")
