@@ -53,7 +53,6 @@ for key in df['description'].keys():
     tfidf_dict[int(key)] = tfidf_mat[matrix_index]
     matrix_index += 1
 
-index_to_vocab = {i: v for i, v in enumerate(tfidf_vec.get_feature_names())}
 vocab_to_index = {
     v.lower(): i
     for i, v in enumerate(tfidf_vec.get_feature_names())
