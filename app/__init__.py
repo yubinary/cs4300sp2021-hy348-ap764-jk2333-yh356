@@ -14,7 +14,7 @@ monkey.patch_all()
 # Configure app
 socketio = SocketIO()
 # app = Flask(__name__)
-app = Flask(__name__, template_folder="build", static_folder="build/static")
+app = Flask(__name__)
 CORS(app)
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
