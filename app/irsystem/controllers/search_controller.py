@@ -93,6 +93,8 @@ vocab_to_index = {
 #             int(p7),
 #             int(p8)
 #         ]
+
+#     return {"personality_match": personality_match, "wine_match": wine_match}
 #         wine_scores = compute_personality_vec(legend, index, mat, responses)
 #         flavor_result = cossim_dict(flavor, inv_ind, idf, norms)
 #         scent_result = cossim_dict(scent, inv_ind, idf, norms)
