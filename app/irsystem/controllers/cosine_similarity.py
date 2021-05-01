@@ -187,14 +187,14 @@ def cossim(query, index, idf, doc_norms):
 
 def cossim_dict(query, index, idf, doc_norms):
     """
-    Returns 
+    Returns
     1. a dictionary where key is the [doc_id] and value is a tuple
     (score, keywords).
-    2. tf-idf vector of the query 
-    3. dictionary where key is doc_id and value is tf-idf vector of that doc 
+    2. tf-idf vector of the query
+    3. dictionary where key is doc_id and value is tf-idf vector of that doc
 
     Computes cosine similarity between query and all documents in index. Uses
-    idf and doc_norms to help with precomputing values for efficiency. 
+    idf and doc_norms to help with precomputing values for efficiency.
     """
     query = tokenizer(query.lower())
     q_tf = {}
@@ -237,10 +237,34 @@ def cossim_dict(query, index, idf, doc_norms):
     return output
 
 
-def total_score(dict1, dict2):
+def get_scores(scores):
+    """
+    Returns dict mapping doc_id to score
+    """
+    output = {}
+    for key in scores.keys():
+        output[int(key)] = int(scores[key])
+
+    return output
+
+
+def analyze_scores(scores):
+    """
+    Returns mean value of scores
+    """
+    agg = 0
+    counter = 0
+    for key in scores.keys():
+        agg += scores[key]
+        counter += 1
+    return agg/counter
+
+
+def total_score(dict1, dict2, scores):
     """
     Returns a sorted list of (score, doc_id, keywords) ranked by score in
-    descending order where score is the total score between dict1 and dict2
+    descending order where score is the total score between dict1 and dict2.
+    Scores are factored in as weight.
 
     [dict#] is a dictionary where key is [doc_id] and value is [score]
     """
@@ -259,9 +283,27 @@ def total_score(dict1, dict2):
     result = []
     for key in result_dict:
         result.append((result_dict[key], key, keywords[key]))
-    result.sort(key=lambda x: x[1])
-    result.sort(key=lambda x: x[0], reverse=True)
-    return result
+
+    # score weighting
+    mean = analyze_scores(scores)
+    weighted_result = []
+    for i in result:
+        sim = i[0]
+        key = i[1]
+        keywords = i[2]
+        score = scores[key]
+
+        # this is weighting algorithm: calculate the mean of all wine scores
+        # and find the percentage (score-mean). add this delta percentage to
+        # the cossim percentage score.
+        delta = (score - mean)/100
+        sim = sim + delta
+
+        weighted_result.append((sim, key, keywords))
+
+    weighted_result.sort(key=lambda x: x[1])
+    weighted_result.sort(key=lambda x: x[0], reverse=True)
+    return weighted_result
 
 
 def precompute(reviews):
@@ -306,8 +348,8 @@ def string_traits(my_list):
 def display(query, wine_scores, sim_list, reviews, num, max_price):
     """
     Takes a query, wine_scores, sim_list output from the cossim() function, the
-    wine reviews df, number of results to return, and maximum price (string) 
-    and prints the output to the terminal. Duplicate entries are caught and 
+    wine reviews df, number of results to return, and maximum price (string)
+    and prints the output to the terminal. Duplicate entries are caught and
     removed. Only varieties of the top type according to wine_scores are
     printed.
     """
@@ -410,7 +452,8 @@ def compute_wine(wine_scores, sim_list, reviews, num, max_price):
                 desc = reviews["description"].get(key=str(idx))
                 price = reviews["price"].get(key=str(idx))
                 stringed_traits = string_traits(sim_list[i][2])
-                desc = "The keyword(s) that matched you to this wine: " + stringed_traits + ". " + desc
+                desc = "The keyword(s) that matched you to this wine: " + \
+                    stringed_traits + ". " + desc
                 result = {}
                 result["doc_id"] = idx
                 result["top_wine"] = wine_scores[0][1]
