@@ -1,5 +1,5 @@
 # from json_reader import json_read_vector
-from json_reader import *
+from .json_reader import *
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
