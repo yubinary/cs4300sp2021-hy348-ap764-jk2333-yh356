@@ -4,6 +4,10 @@ from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
 from .json_reader import *
 from .cosine_similarity import *
 from .personality_vector import *
+from flask_cors import CORS
+import numpy
+from sklearn.feature_extraction.text import TfidfVectorizer
+from .rocchio import *
 
 project_name = "Perfect Wine Match: Find Your Perfect Wine"
 net_id = "Ashley Park: ap764, Junho Kim-Lee: jk2333, Sofia Yoon: hy348, Yubin Heo: yh356"
@@ -22,6 +26,40 @@ flat_tokenized_variety = flat_tokenizer_personality_variety(df_personality)
 inv_ind_person, idf_person, norms_person = precompute_personality(
     tokenized_personality)
 
+
+def build_vectorizer(max_n_terms=5000, max_prop_docs=0.8, min_n_docs=10):
+    """Returns a TfidfVectorizer object with certain preprocessing properties.
+    
+    Params: {max_n_terms: Integer,
+             max_prop_docs: Float,
+             min_n_docs: Integer}
+    Returns: TfidfVectorizer
+    """
+    # YOUR CODE HERE
+    vectorizer = TfidfVectorizer(min_df=min_n_docs,
+                                 max_df=max_prop_docs,
+                                 max_features=max_n_terms,
+                                 stop_words='english')
+    return vectorizer
+
+
+tfidf_vec = build_vectorizer()
+tfidf_mat = tfidf_vec.fit_transform(df['description']).toarray()
+tfidf_dict = {}
+
+matrix_index = 0
+for key in df['description'].keys():
+    # print(type(key))
+    if (int(key)) == 348:
+        print("THIS DOC EXSISTS")
+    tfidf_dict[int(key)] = tfidf_mat[matrix_index]
+    matrix_index += 1
+
+index_to_vocab = {i: v for i, v in enumerate(tfidf_vec.get_feature_names())}
+vocab_to_index = {
+    v.lower(): i
+    for i, v in enumerate(tfidf_vec.get_feature_names())
+}
 ########################### Prototype 1 start ###########################
 
 # @irsystem.route('/prototype1', methods=['GET'])
@@ -120,17 +158,44 @@ def search():
         scent_result = cossim_dict(scent, inv_ind, idf, norms)
         total = total_score(flavor_result, scent_result)
 
-        personality_match = compute_personality(name, wine_scores,
-                                                df_personality)
-        wine_match = compute_wine(name, wine_scores, total, df, 5, price)
+        personality_match = compute_personality(wine_scores, df_personality)
+        wine_match = compute_wine(wine_scores, total, df, 6, price)
 
     return {"personality_match": personality_match, "wine_match": wine_match}
-    # user_name = name,
-    # netid = net_id,
-    # scale = scale,
-    # personality_match = personality_match,
-    # wine_match = wine_match
 
+
+# @irsystem.route('/rocchio', methods=['POST'])
+# def rocchio_match():
+#     print(request)
+#     if request.method == "POST":
+#         content = request.get_json()
+#         for wine in content['wine_match']:
+#             if wine['doc_id'] not in content['likedWines']:
+#                 content['likedWines'][wine['doc_id']] = False
+#         rel_and_unrel_docs = {"relevant": [], "irrelevant": []}
+
+#         for key in content['likedWines'].keys():
+#             if content['likedWines'][key] == True:
+#                 print(key)
+#                 rel_and_unrel_docs['relevant'].append(int(key))
+#             else:
+#                 rel_and_unrel_docs["irrelevant"].append(int(key))
+
+#         flavor = content['flavor']
+#         scent = content['scent']
+#         max_price = content['price']
+#         variety = content['variety']
+#         flavor_cossim = cossim_with_rocchio(flavor, tfidf_dict, idf,
+#                                             rel_and_unrel_docs, vocab_to_index)
+#         scent_cossim = cossim_with_rocchio(scent, tfidf_dict, idf,
+#                                            rel_and_unrel_docs, vocab_to_index)
+
+#         total = total_score_with_rocchio(flavor_cossim, scent_cossim)
+#         new_wine_match = compute_wine_rocchio(variety, total, df, 6, max_price)
+
+#         return {"new_wine_match": new_wine_match}
+#     else:
+#         return
 
 # @irsystem.route('/', defaults={'path': ''})
 # @irsystem.route('/<path:path>')

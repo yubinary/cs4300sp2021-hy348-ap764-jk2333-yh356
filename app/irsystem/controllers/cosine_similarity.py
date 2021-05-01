@@ -62,24 +62,43 @@ def build_inverted_index(reviews):
     term frequency. The list is sorted in ascending order of doc index.
     """
     inv_ind = {}
-    doc = 0
-    for review in reviews:
-        for word in review:
-            if word in inv_ind:
-                if doc in inv_ind[word]:
-                    inv_ind[word][doc] += 1
+    if type(reviews) == list:
+        inv_ind = {}
+        doc = 0
+        for review in reviews:
+            for word in review:
+                if word in inv_ind:
+                    if doc in inv_ind[word]:
+                        inv_ind[word][doc] += 1
+                    else:
+                        inv_ind[word][doc] = 1
                 else:
-                    inv_ind[word][doc] = 1
-            else:
-                inv_ind[word] = {doc: 1}
-        doc += 1
+                    inv_ind[word] = {doc: 1}
+            doc += 1
 
-    for word in inv_ind:
-        l = [(k, v) for k, v in inv_ind[word].items()]
-        l.sort(key=lambda x: x[0])
-        inv_ind[word] = l
+        for word in inv_ind:
+            l = [(k, v) for k, v in inv_ind[word].items()]
+            l.sort(key=lambda x: x[0])
+            inv_ind[word] = l
 
-    return inv_ind
+        return inv_ind
+    else:
+        for key in reviews.keys():
+            for word in reviews[key]:
+                if word in inv_ind:
+                    if int(key) in inv_ind[word]:
+                        inv_ind[word][int(key)] += 1
+                    else:
+                        inv_ind[word][int(key)] = 1
+                else:
+                    inv_ind[word] = {int(key): 1}
+
+        for word in inv_ind:
+            l = [(k, v) for k, v in inv_ind[word].items()]
+            l.sort(key=lambda x: x[0])
+            inv_ind[word] = l
+
+        return inv_ind
 
 
 def compute_idf(inv_idx, n_docs, min_df, max_df_ratio):
@@ -103,16 +122,21 @@ def compute_doc_norms(index, idf, n_docs):
     Compute euclidean doc norms. Takes an inverted index and number of documents
     and returns a np array where the i'th entry is the norm of document i.
     """
-    norms = np.zeros(n_docs)
+    norms = {}
+    # norms = np.zeros(n_docs)
     for word in index:
         if word in idf:
             for doc in index[word]:
                 j = doc[0]
+                # print(j)
                 tf_ij = doc[1]
                 idf_i = idf[word]
                 sum_term = (tf_ij * idf_i)**2
+                if j not in norms:
+                    norms[j] = 0
                 norms[j] += sum_term
-    norms = np.sqrt(norms)
+    for key in norms.keys():
+        norms[key] = np.sqrt(norms[key])
     return norms
 
 
@@ -163,10 +187,14 @@ def cossim(query, index, idf, doc_norms):
 
 def cossim_dict(query, index, idf, doc_norms):
     """
-    Computes cosine similarity between query and all documents in index. Uses
-    idf and doc_norms to help with precomputing values for efficiency. Returns
-    a dictionary where key is the [doc_id] and value is a tuple
+    Returns 
+    1. a dictionary where key is the [doc_id] and value is a tuple
     (score, keywords).
+    2. tf-idf vector of the query 
+    3. dictionary where key is doc_id and value is tf-idf vector of that doc 
+
+    Computes cosine similarity between query and all documents in index. Uses
+    idf and doc_norms to help with precomputing values for efficiency. 
     """
     query = tokenizer(query.lower())
     q_tf = {}
@@ -190,6 +218,7 @@ def cossim_dict(query, index, idf, doc_norms):
             if word in idf:
                 for doc in index[word]:
                     doc_idx = doc[0]
+                    # print(doc_idx)
                     if doc_idx not in doc_keywords:
                         doc_keywords[doc_idx] = [word]
                     else:
@@ -202,7 +231,6 @@ def cossim_dict(query, index, idf, doc_norms):
                     else:
                         num[doc_idx] = q_tf[word] * \
                             idf[word] * doc[1] * idf[word]
-
     output = dict()
     for doc in num:
         output[doc] = (num[doc] / denom[doc], doc_keywords[doc])
@@ -353,12 +381,16 @@ def display_personality(query, sim_list, reviews):
         i += 1
 
 
-def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
+def compute_wine(wine_scores, sim_list, reviews, num, max_price):
     """
-    Takes a query, wine_scores, sim_list output from the cossim() function, the
+    Takes wine_scores, sim_list output from the cossim() function, the
     wine reviews df, and number of results to return, and prints the output to
     the terminal. Duplicate entries are caught and removed. Only varieties of
     the top type according to wine_scores are printed.
+
+    sim_list is a sorted list of (score, doc_id, keywords) ranked by score in
+    descending order
+    [dict#] is a dictionary where key is [doc_id] and value is [score]
     """
     results = []
 
@@ -367,23 +399,20 @@ def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
     dup_list = []
     while len(dup_list) < num and i < len(sim_list):
         idx = sim_list[i][1]
-        variety = reviews["variety"][idx]
-        title = reviews["title"][idx]
-        price = reviews["price"][idx]
+        # print(reviews["variety"])
+        variety = reviews["variety"].get(key=str(idx))
+        title = reviews["title"].get(key=str(idx))
+        price = reviews["price"].get(key=str(idx))
         if variety == wine_scores[0][1] and price <= float(max_price):
             if title not in dup_list:
                 dup_list.append(title)
                 # score = round(sim_list[i][0]*100, 1)
-                desc = reviews["description"][idx]
-                price = reviews["price"][idx]
+                desc = reviews["description"].get(key=str(idx))
+                price = reviews["price"].get(key=str(idx))
                 stringed_traits = string_traits(sim_list[i][2])
                 desc = "The keyword(s) that matched you to this wine: " + stringed_traits + ". " + desc
-
-                # result.append(str(counter) + ". " + title)
-                # result.append(desc + " The price of this wine is $" +
-                #               str(int(price)))
-
                 result = {}
+                result["doc_id"] = idx
                 result["top_wine"] = wine_scores[0][1]
                 result["price"] = str(int(price))
                 result["wine"] = title
@@ -394,7 +423,7 @@ def compute_wine(query, wine_scores, sim_list, reviews, num, max_price):
     return results
 
 
-def compute_personality(query, sim_list, reviews):
+def compute_personality(sim_list, reviews):
     """
     Displays the personality - wine variety match
     """
