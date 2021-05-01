@@ -6,6 +6,10 @@ from flask import Blueprint
 #                      url_prefix='/',
 #                      static_folder='../static',
 #                      template_folder='../templates')
-irsystem = Blueprint('irsystem', __name__, url_prefix='/api')
+irsystem = Blueprint('irsystem',
+                     __name__,
+                     static_folder='../static',
+                     template_folder='../templates/',
+                     url_prefix='/api')
 # Import all controllers
 from .controllers.search_controller import *
