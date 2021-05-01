@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 export default function Search({
   name,
   personality,
@@ -28,8 +27,13 @@ export default function Search({
     const scentEmpty = scent === null || scent === '';
     const priceEmpty = price === null || price === '';
 
-    if (nameEmpty && perEmpty && flavorEmpty && scentEmpty && priceEmpty) {
+    if (nameEmpty || perEmpty || flavorEmpty || scentEmpty || priceEmpty) {
+      alert(
+        'You still have some missing inputs for us to find your perfect matches :( '
+      );
       setDisplay(true);
+    } else if (price < 4 || price > 3300) {
+      alert('The price range should be anywhere between $4 to $3300');
     } else {
       let personalityUrl = '';
       for (const key in personality) {
@@ -57,6 +61,7 @@ export default function Search({
     event.preventDefault();
 
     // turn form values to url params
+    console.log(name);
     createUrl(name, personality, flavor, scent, price);
   }
 
@@ -80,6 +85,7 @@ export default function Search({
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
+            required
           />
           <input
             className='radio'
@@ -90,6 +96,7 @@ export default function Search({
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
+            required
           />
           <input
             className='radio'
@@ -100,6 +107,7 @@ export default function Search({
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
+            required
           />
           <input
             className='radio'
@@ -110,6 +118,7 @@ export default function Search({
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
+            required
           />
           <input
             className='radio'
@@ -120,6 +129,7 @@ export default function Search({
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
+            required
           />
         </div>
       </>
@@ -138,6 +148,8 @@ export default function Search({
               placeholder='Jane Doe'
               value={name}
               onChange={(event) => setName(event.target.value)}
+              required
+              autoComplete='off'
             />
           </div>
           <div class='form-group'>
@@ -151,6 +163,7 @@ export default function Search({
               value={flavor}
               onChange={(event) => setFlavor(event.target.value)}
               placeholder='Really cold coca-cola during the summer...'
+              required
             />
           </div>
           <div class='form-group'>
@@ -161,19 +174,23 @@ export default function Search({
               value={scent}
               onChange={(event) => setScent(event.target.value)}
               placeholder='Fresh tangerines...'
+              required
             />
           </div>
           <div class='form-group'>
             <label for='price'>
               What is the maximum price you would like to pay?
             </label>
-
             <input
               name='price'
               class='form-control'
               value={price}
               onChange={(event) => setPrice(event.target.value)}
-              placeholder='300'
+              placeholder='Any price from $4 to $3300!'
+              type='number'
+              min='4'
+              max='3300'
+              required
             ></input>
           </div>
           <div class='form-group'>
