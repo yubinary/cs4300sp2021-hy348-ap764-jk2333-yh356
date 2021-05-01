@@ -1,8 +1,8 @@
 # Module to call in the terminal to run the IR system.
 
-from json_reader import *
-from cosine_similarity import *
-from personality_vector import *
+from .json_reader import *
+from .cosine_similarity import *
+from .personality_vector import *
 
 print("Welcome to Perfect Wine Match!")
 print("Loading data...")
