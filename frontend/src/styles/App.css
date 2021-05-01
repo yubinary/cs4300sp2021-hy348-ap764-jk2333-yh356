@@ -1,26 +1,35 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:100,300,400,500,700,900");
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:100,300,400,500,700,900');
 
 /* General */
 * {
   box-sizing: border-box;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: 'Nunito Sans', sans-serif;
 }
 
-.Home, .ResultPage{
+.Home,
+.ResultPage {
   display: flex;
 }
 
 /* Search */
-.Search{
+.Search {
   position: fixed;
   left: 50%;
-  background-image: url("image1.jpg");
+  background-image: url('image1.jpg');
   background-size: cover;
   height: 100vh;
   width: 50%;
 }
 
-form{
+/* form[name='feedback'] {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  width: 100%;
+} */
+
+.Search form {
   position: fixed;
   top: 50%;
   left: 75%;
@@ -36,50 +45,53 @@ form{
   align-content: space-between;
 }
 
-label, .form-group, form p{
+label,
+.form-group,
+form p {
   margin-bottom: 0px;
 }
 
-.form-group{
+.form-group {
   width: 100%;
 }
 
-form p{
+form p {
   color: rgb(153, 153, 153);
 }
 
-.scale{
+.scale {
   display: flex;
   justify-content: space-evenly;
 }
 
-.scale p{
+.scale p {
   padding: 0px 5px;
   margin: auto;
   font-size: 10px;
 }
-.radios{
+.radios {
   display: flex;
   justify-content: space-evenly;
 }
 
-.radios .radio{
+.radios .radio {
   padding: 0px 5px;
   margin: auto;
 }
 
 /* Landing */
-.Landing, .Result{
+.Landing,
+.Result {
   min-height: 100vh;
   width: 50%;
   background-color: rgb(245, 245, 245);
 }
 
-.Landing .text{
+.Landing .text {
   padding: 40px 50px;
 }
 
-.Landing h1{
+.Landing h1 {
   line-height: 1.1;
   margin: 0px;
   width: 500px;
@@ -87,67 +99,70 @@ form p{
   font-weight: 800;
 }
 
-.Landing p{
+.Landing p {
   line-height: 1.5;
   width: 400px;
   font-size: 18px;
   margin: 15px 0px;
 }
 
-.logo{
+.logo {
   margin: 30px 0px 0px 50px;
   width: 80px;
 }
 
 /* Result */
-.personality-match{
+.personality-match {
   padding: 50px;
 }
 
-.wine-match, .personality-other{
+.wine-match,
+.personality-other {
   padding: 0px 50px 50px 50px;
 }
 
-.wine-match-intro{
+.wine-match-intro {
   padding: 0px 50px;
 }
 
-.pm, .wm{
+.pm,
+.wm {
   background-color: rgb(255, 255, 255);
   border-radius: 13px;
   padding: 20px;
   margin: 20px 0px;
 }
 
-.top{
+.top {
   background-color: rgb(231, 231, 231);
 }
 
-.wm{
+.wm {
   color: rgb(255, 255, 255);
-  height: 420px;
+  height: 500px;
   background-color: rgb(156, 156, 156);
 }
 
-.wm h5{
+.wm h5 {
   font-size: 18px;
 }
 
-.wine-match, .pm-intro{
+.wine-match,
+.pm-intro {
   display: flex;
   text-align: center;
 }
 
-.col{
+.col {
   flex-grow: 1;
   padding: 0px;
 }
 
-.left{
+.left {
   margin-right: 20px;
 }
 
-.score{
+.score {
   background-color: black;
   color: white;
   margin-right: 10px;
