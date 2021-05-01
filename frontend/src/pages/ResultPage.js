@@ -23,7 +23,8 @@ export default function ResultPage() {
 
     axios({
       method: 'GET',
-      url: `http://localhost:5000/search`,
+      url: `/search`,
+      // url: `http://localhost:5000/search`,
       params: URLParams,
     })
       .then((response) => {
