@@ -1,13 +1,15 @@
+import React from 'react';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import Home from "./pages/Home.js";
+import ResultPage from "./pages/ResultPage.js";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      {search}
-    </div>
+    //Switch
+    <Router>
+      <Route exact path="/" component={Home} />
+      <Route path="/result/" component={ResultPage} />
+    </Router>
   );
 }
-
-export default App;
