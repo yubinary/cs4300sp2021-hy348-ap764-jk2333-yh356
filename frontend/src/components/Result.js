@@ -107,6 +107,24 @@ export default function Result({ pm, wm }) {
     return result;
   }
 
+  function newDisplayWMLeft(wines) {
+    let result = [];
+    if (wines.length > 0) {
+      for (let i = 0; i < wines.length; i += 2) {
+        result.push(
+          <div className='wm'>
+            <h5>
+              <i>{wines[i].wine}</i>
+            </h5>
+            <p>{'$' + wines[i].price}</p>
+            <p>{wines[i].description}</p>
+          </div>
+        );
+      }
+    }
+    return result;
+  }
+
   function displayWMRight(wines) {
     let result = [];
     if (wines.length > 0) {
@@ -119,6 +137,24 @@ export default function Result({ pm, wm }) {
             <p>{'$' + wines[i].price}</p>
             <p>{wines[i].description}</p>
             {displayLike(wines, i)}
+          </div>
+        );
+      }
+    }
+    return result;
+  }
+
+  function newDisplayWMRight(wines) {
+    let result = [];
+    if (wines.length > 0) {
+      for (let i = 1; i < wines.length; i += 2) {
+        result.push(
+          <div className='wm'>
+            <h5>
+              <i>{wines[i].wine}</i>
+            </h5>
+            <p>{'$' + wines[i].price}</p>
+            <p>{wines[i].description}</p>
           </div>
         );
       }
@@ -157,31 +193,31 @@ export default function Result({ pm, wm }) {
   }
 
   function handleSubmit() {
-    // console.log('handleSubmit called');
-    // let postData = {};
-    // let flavor = URLParams.get('flavor');
-    // let scent = URLParams.get('scent');
-    // let price = URLParams.get('price');
-    // postData['flavor'] = flavor;
-    // postData['scent'] = scent;
-    // postData['price'] = price;
-    // postData['wine_match'] = wm;
-    // postData['variety'] = pm[0].wine;
-    // postData['likedWines'] = likedWine;
-    // // if (canPost) {
-    // // axios.post(`http://localhost:5000/rocchio`, postData).then(
-    // //   (response) => {
-    // //     var result = response.data;
-    // //     console.log(result);
-    // //     setNewWM(result['new_wine_match']);
-    // //   },
-    // //   (error) => {
-    // //     console.log(error);
-    // //   }
-    // // );
-    // // }
+    setDisable(true);
+    console.log('handleSubmit called');
+    let postData = {};
+    let flavor = URLParams.get('flavor');
+    let scent = URLParams.get('scent');
+    let price = URLParams.get('price');
+    postData['flavor'] = flavor;
+    postData['scent'] = scent;
+    postData['price'] = price;
+    postData['wine_match'] = wm;
+    postData['variety'] = pm[0].wine;
+    postData['likedWines'] = likedWine;
+    // if (canPost) {
+    axios.post(`/api/rocchio`, postData).then(
+      (response) => {
+        var result = response.data;
+        console.log(result);
+        setNewWM(result['new_wine_match']);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    // }
     // setCanPost(false);
-    // setDisable(true);
   }
 
   return (
@@ -199,20 +235,26 @@ export default function Result({ pm, wm }) {
           </div>
           <center>
             <button
-              disabled={!isDisabled}
-              onClick={handleSubmit()}
+              disabled={isDisabled}
+              onClick={() => handleSubmit()}
               class='btn btn-secondary'
             >
               Click Here for New Matches based on your likes
             </button>
           </center>
-          {/* 
-          {isDisabled ? ( */}
-          <div className='wine-match'>
-            <div className='col left'>{displayWMLeft(newWM)}</div>
-            <div className='col right'>{displayWMRight(newWM)}</div>
-          </div>
-          {/* ) : null} */}
+
+          {isDisabled ? (
+            <div>
+              <br></br>
+              <center>
+                <h3>Here are your new matches!</h3>
+              </center>
+              <div className='wine-match'>
+                <div className='col left'>{newDisplayWMLeft(newWM)}</div>
+                <div className='col right'>{newDisplayWMRight(newWM)}</div>
+              </div>
+            </div>
+          ) : null}
           <br></br>
         </div>
       ) : (
