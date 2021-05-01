@@ -1,14 +1,14 @@
 [
   {
     "variety": "Merlot",
-    "personality_description": "Merlot is a classic that’s a go-to wine for many different types of people. These people do share some common traits, however! If your wine selection is frequently Merlot than you are probably laid-back and like to go with the flow. You’re adaptable and generally aren’t a picky person. Oh, but wait! Just because you’re easygoing does not mean you’re a pushover! You have plenty of ideas and values that you won’t abandon. You pay attention to other people’s needs, emotions and motives and you act as a catalyst to get things done. You’re social, almost a facilitator, in a group situation. You are a leader, but you do it by finding potential in the people around you. Your empathetic, responsible, and helper-at-heart characterstics make you a go-to person in a team environment. "
+    "personality_description": "Merlot is a classic that’s a go-to wine for many different types of people. These people do share some common traits, however! If your wine selection is frequently Merlot than you are probably laid-back and like to go with the flow. You’re adaptable and generally aren’t a picky person. Oh, but wait! Just because you’re easygoing does not mean you’re a pushover! You have plenty of ideas and values that you won’t abandon. You pay attention to other people’s needs, emotions and motives and you act as a catalyst to get things done. You’re social, almost a facilitator, in a group situation. You are a leader, but you do it by finding potential in the people around you. Your empathetic, responsible, and helper-at-heart characterstics make you a go-to person in a team environment."
   },
   {
     "variety": "Sauvignon Blanc",
     "personality_description": "A sophisticated wine, Sauvignon Blanc is refreshing and goes well with a variety of different dishes. In terms of personality, if it’s your wine of choice, then lead the way. You’re an alpha dog and command attention at the many social events you attend. Your sexy, friendly, and clearly, you have good taste!  You command attention with your powerful air and put-together attitude. You thrive off of success—whether it’s a planned event or a calorie-burning workout, you want the best. You like having a full social calendar, but you also know that you’ll lose it if you don’t have time to relax with some wine."
   },
   {
-    "variety": "White Zinfandel",
+    "variety": "Zinfandel",
     "personality_description": "Of all the types of wine, White Zin is one of the sneakiest. Sure, it’s light and refreshing but boy, it’s deceptively alcoholic! If your favorite wine is White Zin, you are a free spirit who’s also a social butterfly. You’re the life of the party, adventurous, and love to try new things. You are outgoing and friendly. In fact you are exuberant in your love for life, material things and people. You love to work with others and see things very realistically. Work should be fun otherwise you won’t do it. You are spontaneous and adapt to new situations fast. You love to learn things in groups."
   },
   {
@@ -40,7 +40,7 @@
     "personality_description": "You’re a hard worker and enjoy being successful at everything you do. Most things bore you, but when they catch your interest you quickly develop logical explanations to why they work. You love theories and abstract ideas more than you like to socialize. You are quiet and contained even if you are a bit critical to the people around you. You’re a text book example of a skeptic. You are very analytical when it comes to solving problems. You’re friends with a variety of people, but only a few are close enough to know your true self."
   },
   {
-    "variety": "Champagne",
+    "variety": "Champagne Blend",
     "personality_description": "Of course, the bubbles in this wine match your bubbly personality. You’re the life of the party—the person people go to when they need to celebrate and have some fun. But you’re not just the party type; you’re the person people love to celebrate with for all sorts of affairs. You strive to make people feel special and adored for whatever the special day entails. You’re goal-oriented, prefer the finer things in life, and dress to impress!"
   },
   {

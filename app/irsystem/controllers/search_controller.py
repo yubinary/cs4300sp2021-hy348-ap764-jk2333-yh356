@@ -199,7 +199,8 @@ def search():
 #     else:
 #         return
 
-# @irsystem.route('/', defaults={'path': ''})
-# @irsystem.route('/<path:path>')
-# def catch_all(path):
-#     return render_template("index.html")
+
+@irsystem.route('/', defaults={'path': ''})
+@irsystem.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")

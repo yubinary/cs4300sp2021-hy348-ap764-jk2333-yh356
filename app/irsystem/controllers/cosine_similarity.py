@@ -438,13 +438,10 @@ def compute_personality(sim_list, reviews):
     dup_list = []
     while len(dup_list) < 3:
         stringed_traits = string_traits(sim_list[i][2])
-        # print(sim_list[i])
-        # print(stringed_traits)
         title = sim_list[i][1]
         dup_list.append(title)
         score = round(sim_list[i][0] * 100, 1)
         desc = reviews["personality_description"][inv_dict[title]]
-        # desc = "Your key similarities with this variety: " + stringed_traits + ". "
         result = {}
         result["top_wine"] = sim_list[0][1]
         result["top_wine_percent"] = str(round(100 * sim_list[0][0], 1))
@@ -492,14 +489,15 @@ def compute_outputs_personality(sim_list, reviews):
     try:
         while len(dup_list) < len(sim_list):
             idx = sim_list[i][1]
+            print(title)
             title = reviews["variety"][idx]
-            if title not in dup_list:
-                # print(title)
-                dup_list.append(title)
-                score = round(sim_list[i][0] * 100, 2)
-                desc = reviews["personality_description"][idx]
-                variety = "[" + str(score) + "%] " + title
-                result.append(variety)
+            # if title in dup_list:
+            # print(title)
+            dup_list.append(title)
+            score = round(sim_list[i][0] * 100, 2)
+            desc = reviews["personality_description"][idx]
+            variety = "[" + str(score) + "%] " + title
+            result.append(variety)
             i += 1
         return result
     except:
