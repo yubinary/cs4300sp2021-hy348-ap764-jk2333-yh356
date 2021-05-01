@@ -35,6 +35,7 @@ def not_found(error):
     return render_template("404.html"), 404
 
 
-# @app.route('/', methods=['GET'])
-# def index():
-#     return render_template("index.html")
+@app.route('/', methods=['GET'], defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return render_template("index.html")
