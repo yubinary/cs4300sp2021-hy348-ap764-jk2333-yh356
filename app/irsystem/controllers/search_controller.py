@@ -16,6 +16,7 @@ df = json_read("app/irsystem/controllers/winemag_data_withtoks.json")
 df_personality = json_read("app/irsystem/controllers/wine_personality.json")
 
 inv_ind, idf, norms = precompute(df["toks"])
+scores = get_scores(df["points"])
 legend, index, mat = json_read_vector(
     "app/irsystem/controllers/wine_variety_vectors.json")
 
@@ -155,7 +156,7 @@ def search():
         # wine_scores = frontend_similar_varieties(legend, index, mat, responses)
         flavor_result = cossim_dict(flavor, inv_ind, idf, norms)
         scent_result = cossim_dict(scent, inv_ind, idf, norms)
-        total = total_score(flavor_result, scent_result)
+        total = total_score(flavor_result, scent_result, scores)
 
         personality_match = compute_personality(wine_scores, df_personality)
         wine_match = compute_wine(wine_scores, total, df, 6, price)

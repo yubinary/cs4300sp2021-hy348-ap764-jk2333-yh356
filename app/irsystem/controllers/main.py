@@ -1,8 +1,8 @@
 # Module to call in the terminal to run the IR system.
 
-from .json_reader import *
-from .cosine_similarity import *
-from .personality_vector import *
+from json_reader import *
+from cosine_similarity import *
+from personality_vector import *
 
 print("Welcome to Perfect Wine Match!")
 print("Loading data...")
@@ -11,6 +11,18 @@ df_personality = json_read("wine_personality.json")
 legend, index, mat = json_read_vector("wine_variety_vectors.json")
 print("Precomputing resources...")
 inv_ind, idf, norms = precompute(df["toks"])
+scores = get_scores(df["points"])
+
+#toks = []
+#points = []
+# for i in df["toks"].keys():
+#    toks.append(i)
+# for i in df["points"].keys():
+#    points.append(i)
+#toks = set(toks)
+#points = set(points)
+# if toks == points:
+#    print("yay")
 
 # Personality data
 tokenized_personality = tokenizer_personality_data(df_personality)
@@ -40,7 +52,7 @@ while not quit:
     flavor_result = cossim_dict(flavor, inv_ind, idf, norms)
     scent_result = cossim_dict(scent, inv_ind, idf, norms)
 
-    total = total_score(flavor_result, scent_result)
+    total = total_score(flavor_result, scent_result, scores)
 
     display_personality(name, wine_scores, df_personality)
     display(name, wine_scores, total, df, 5, max_price)
