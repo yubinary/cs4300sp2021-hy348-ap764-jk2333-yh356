@@ -1,5 +1,5 @@
 # from json_reader import json_read_vector
-from json_reader import *
+from .json_reader import *
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -148,6 +148,7 @@ def similar_varieties(legend, index, mat):
     user = generate_personality_vec(legend)
     for i in range(len(mat)):
         a = cosine_similarity([user], [mat[i]])
+
         traits = key_traits(user, mat[i], legend)
         scores.append((a[0][0], index[i], traits))
     scores.sort(key=lambda x: x[0], reverse=True)
