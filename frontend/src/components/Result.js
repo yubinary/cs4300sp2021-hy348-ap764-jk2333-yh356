@@ -196,7 +196,6 @@ export default function Result({ pm, wm }) {
 
   function handleSubmit() {
     setDisable(true);
-    console.log('handleSubmit called');
     let postData = {};
     let flavor = URLParams.get('flavor');
     let scent = URLParams.get('scent');
@@ -265,7 +264,8 @@ export default function Result({ pm, wm }) {
             Based on your flavor and scent preferences... <br></br>
             <br></br> A surprise to be sure, but a welcome one. It appears that
             no specific bottle of wine is special enough to match your unique
-            personality! Take pride in the fact that there is no one like you!
+            flavor and scent preferences! Take pride in the fact that there is
+            no one like you!
           </p>
         </div>
       )}

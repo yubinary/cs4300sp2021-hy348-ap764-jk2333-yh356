@@ -146,7 +146,7 @@ def total_score_with_rocchio(dict1, dict2):
     return result
 
 
-def compute_wine_rocchio(top_variety, total_scores, reviews, num, max_price):
+def compute_wine_rocchio(top_variety, total_scores, reviews, num, max_price, rel_and_unrel_docs):
     """
     Returns a dictionary of wines based on new cossine similarity scores from
     rocchio
@@ -159,22 +159,26 @@ def compute_wine_rocchio(top_variety, total_scores, reviews, num, max_price):
     i = 0
     counter = 1
     dup_list = []
+
+    excluded_wines = set(rel_and_unrel_docs['relevant'] + rel_and_unrel_docs['irrelevant'])
+
     while len(dup_list) < num and i < len(total_scores):
         idx = total_scores[i][1]
         variety = reviews["variety"].get(key=str(idx))
         title = reviews["title"].get(key=str(idx))
         price = reviews["price"].get(key=str(idx))
-        if variety == top_variety and price <= float(max_price):
-            if title not in dup_list:
-                dup_list.append(title)
-                desc = reviews["description"].get(key=str(idx))
-                price = reviews["price"].get(key=str(idx))
-                result = {}
-                result["top_wine"] = top_variety
-                result["price"] = str(int(price))
-                result["wine"] = title
-                result["description"] = desc
-                results.append(result)
-                counter += 1
+        if idx not in excluded_wines:
+            if variety == top_variety and price <= float(max_price):
+                if title not in dup_list:
+                    dup_list.append(title)
+                    desc = reviews["description"].get(key=str(idx))
+                    price = reviews["price"].get(key=str(idx))
+                    result = {}
+                    result["top_wine"] = top_variety
+                    result["price"] = str(int(price))
+                    result["wine"] = title
+                    result["description"] = desc
+                    results.append(result)
+                    counter += 1
         i += 1
     return results

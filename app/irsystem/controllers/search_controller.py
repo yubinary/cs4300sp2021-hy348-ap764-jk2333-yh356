@@ -189,7 +189,7 @@ def rocchio_match():
                                            rel_and_unrel_docs, vocab_to_index)
 
         total = total_score_with_rocchio(flavor_cossim, scent_cossim)
-        new_wine_match = compute_wine_rocchio(variety, total, df, 6, max_price)
+        new_wine_match = compute_wine_rocchio(variety, total, df, 6, max_price, rel_and_unrel_docs)
 
         return {"new_wine_match": new_wine_match}
 
