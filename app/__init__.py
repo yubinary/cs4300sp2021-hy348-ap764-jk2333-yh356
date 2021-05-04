@@ -36,6 +36,12 @@ socketio.init_app(app)
 #     return render_template("404.html"), 404
 
 
+#HTTP error handling
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("/404.html"), 404
+
+
 @app.route('/', methods=['GET'])
 def index():
-    return render_template("index.html")
+    return render_template("/index.html")

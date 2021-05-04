@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function Search({
   name,
   personality,
@@ -14,55 +15,78 @@ export default function Search({
   setPrice,
 }) {
   let history = useHistory();
-  const [displayErrorMessage, setDisplay] = useState(false);
   const [page, setPage] = useState(1);
 
-  // function tonewURL = (search, categories, score, sizes, maturity) => {
   function createUrl(name, personality, flavor, scent, price) {
-    // check for empty inputs
-    const nameEmpty = name === null || name === '';
-    const perEmpty = personality === null || personality === '';
-    // const perEmpty = personality === null || personality.length === 0
-    const flavorEmpty = flavor === null || flavor === '';
-    const scentEmpty = scent === null || scent === '';
-    const priceEmpty = price === null || price === '';
-
-    if (nameEmpty || perEmpty || flavorEmpty || scentEmpty || priceEmpty) {
-      alert(
-        'You still have some missing inputs for us to find your perfect matches :( '
-      );
-      setDisplay(true);
-    } else if (price < 4 || price > 3300) {
-      alert('The price range should be anywhere between $4 to $3300');
-    } else {
-      let personalityUrl = '';
-      for (const key in personality) {
-        personalityUrl += '&' + key + '=' + personality[key];
-      }
-
-      let url =
-        '?name=' +
-        encodeURI(name) +
-        personalityUrl +
-        '&flavor=' +
-        encodeURI(flavor) +
-        '&scent=' +
-        encodeURI(scent) +
-        '&price=' +
-        encodeURI(price);
-
-      history.push({
-        pathname: '/result/' + url,
-      });
+    let personalityUrl = '';
+    for (const key in personality) {
+      personalityUrl += '&' + key + '=' + personality[key];
     }
+    let url =
+      '?name=' +
+      encodeURI(name) +
+      personalityUrl +
+      '&flavor=' +
+      encodeURI(flavor) +
+      '&scent=' +
+      encodeURI(scent) +
+      '&price=' +
+      encodeURI(price);
+
+    history.push({
+      pathname: '/result/' + url,
+    });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (
+      personality['personality5'] !== '' &&
+      personality['personality6'] !== '' &&
+      personality['personality7'] !== '' &&
+      personality['personality8'] !== ''
+    ) {
+      // turn form values to url params
+      createUrl(name, personality, flavor, scent, price);
+    } else {
+      alert(
+        'Please fill out all the inputs for us to determine your perfect matches!'
+      );
+    }
+  }
 
-    // turn form values to url params
-    console.log(name);
-    createUrl(name, personality, flavor, scent, price);
+  function handleNext(event) {
+    if (page === 1) {
+      if (
+        flavor.trim() !== '' &&
+        scent.trim() !== '' &&
+        price.trim() !== '' &&
+        parseInt(price.trim()) >= 4 &&
+        parseInt(price.trim()) <= 3300
+      ) {
+        setPage(2);
+      } else {
+        if (parseInt(price.trim()) < 4 || parseInt(price.trim()) > 3300) {
+          alert('Price range must be between $4 to $3300');
+        } else {
+          alert(
+            'Please fill out all the inputs for us to determine your perfect matches!'
+          );
+        }
+      }
+    } else if (page === 2) {
+      if (
+        personality['personality1'] !== '' &&
+        personality['personality2'] !== '' &&
+        personality['personality3'] !== '' &&
+        personality['personality4'] !== ''
+      ) {
+        setPage(3);
+      } else
+        alert(
+          'Please fill out all the inputs for us to determine your perfect matches!'
+        );
+    }
   }
 
   function displayRadio(i) {
@@ -196,7 +220,7 @@ export default function Search({
           <div class='form-group'>
             <button
               class='btn btn-outline-dark float-right'
-              onClick={() => setPage(2)}
+              onClick={() => handleNext()}
             >
               Next
             </button>
@@ -238,7 +262,7 @@ export default function Search({
             </button>
             <button
               class='btn btn-outline-dark float-right'
-              onClick={() => setPage(3)}
+              onClick={() => handleNext()}
             >
               Next
             </button>

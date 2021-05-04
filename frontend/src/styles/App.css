@@ -29,6 +29,12 @@
   width: 100%;
 } */
 
+input[type='radio'] {
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+}
+
 .Search form {
   position: fixed;
   top: 50%;
@@ -67,7 +73,7 @@ form p {
 .scale p {
   padding: 0px 5px;
   margin: auto;
-  font-size: 10px;
+  font-size: 15px;
 }
 .radios {
   display: flex;
