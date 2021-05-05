@@ -4,7 +4,6 @@ import Search from '../components/Search.js';
 import '../styles/App.css';
 
 export default function Home() {
-  const [name, setName] = useState('');
   const [personality, setPersonality] = useState({
     personality1: '',
     personality2: '',
@@ -23,12 +22,10 @@ export default function Home() {
     <div className='Home'>
       <Landing />
       <Search
-        name={name}
         personality={personality}
         flavor={flavor}
         scent={scent}
         price={price}
-        setName={setName}
         setPersonality={setPersonality}
         setFlavor={setFlavor}
         setScent={setScent}

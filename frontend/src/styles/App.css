@@ -21,18 +21,24 @@
   width: 50%;
 }
 
-/* form[name='feedback'] {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  width: 100%;
-} */
-
 input[type='radio'] {
   height: 20px;
   width: 20px;
   vertical-align: middle;
+}
+
+.form-control {
+  border: 1px solid #495057;
+}
+
+
+label,
+.form-group,
+form p {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 0px;
 }
 
 .Search form {
@@ -40,7 +46,7 @@ input[type='radio'] {
   top: 50%;
   left: 75%;
   transform: translate(-50%, -50%);
-  width: 450px;
+  width: 470px;
   height: 500px;
   border-radius: 20px;
   padding: 30px;
@@ -51,18 +57,14 @@ input[type='radio'] {
   align-content: space-between;
 }
 
-label,
-.form-group,
-form p {
-  margin-bottom: 0px;
-}
-
 .form-group {
   width: 100%;
 }
 
 form p {
-  color: rgb(153, 153, 153);
+  font-size: 10px;
+  /* margin-bottom: 5px; */
+  color: #495057;
 }
 
 .scale {
@@ -73,7 +75,6 @@ form p {
 .scale p {
   padding: 0px 5px;
   margin: auto;
-  font-size: 15px;
 }
 .radios {
   display: flex;
@@ -85,6 +86,12 @@ form p {
   margin: auto;
 }
 
+.Search .btn{
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 /* Landing */
 .Landing,
 .Result {
@@ -93,8 +100,35 @@ form p {
   background-color: rgb(245, 245, 245);
 }
 
-.Landing .text {
-  padding: 40px 50px;
+.Landing .text{
+  padding: 40px 50px;  
+}
+
+.Landing .footer{
+  position: fixed; 
+  bottom: 0;
+  padding: 50px;
+}
+
+.Landing .footer p{
+  font-size: 13px;
+  margin: 0px;
+  color: rgb(151, 151, 151)
+}
+
+.Landing .footer a{
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+
+a, 
+a:link, 
+a:visited, 
+a:hover, 
+a:active {
+  color: rgb(151, 151, 151)
 }
 
 .Landing h1 {
@@ -107,7 +141,7 @@ form p {
 
 .Landing p {
   line-height: 1.5;
-  width: 400px;
+  width: 550px;
   font-size: 18px;
   margin: 15px 0px;
 }
@@ -118,8 +152,79 @@ form p {
 }
 
 /* Result */
+.like-button{
+  margin: 5px;
+  font-size: 25px;
+  color: rgb(150, 150, 150);
+}
+
+.trait{
+  margin-bottom: 20px;
+}
+
+.trait-tag{
+  display: inline-block;
+}
+
+.trait p{
+  margin: 0px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.trait-tag p{
+  font-size: 12px;
+  margin: 0px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  margin-right: 5px;
+  background-color: #a03140;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.RadarChart{
+  width: 320px;
+  height: 300px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0px 15px;
+  margin: 0px;
+}
+
 .personality-match {
   padding: 50px;
+  padding-top: 20px;
+}
+
+.wine-no-result .title,
+.wine-new-match .title,
+.wine-match-intro .title,
+.personality-match .title,
+.personality-other .title{
+  padding-top: 20px;
+  font-size: 20px;
+  margin-bottom: 0px;
+  font-weight: 700;
+}
+
+.wine-no-result{
+  padding: 30px 50px;
+}
+
+.wine-no-result .title{
+  padding: 0px;
+  padding-bottom: 10px;
+}
+
+.wine-new-match .title{
+  padding-left: 50px;
+}
+
+.new-button{
+  margin-bottom: 50px;
 }
 
 .wine-match,
@@ -127,36 +232,113 @@ form p {
   padding: 0px 50px 50px 50px;
 }
 
-.wine-match-intro {
+.wine-match{
+  padding-bottom: 20px;
+}
+
+.wine-match-intro p{
+  font-size: 14px;
   padding: 0px 50px;
 }
 
-.pm,
-.wm {
-  background-color: rgb(255, 255, 255);
-  border-radius: 13px;
-  padding: 20px;
+.wine-match-intro span{
+  color: #a03140;
+  font-size: 25px;
+}
+
+.pm, .wm{
+  border-radius: 10px;
+  background: #a03140;
   margin: 20px 0px;
+  box-shadow: 0px 0px 8px rgb(0 0 0 / 20%);
+}
+
+.wm {
+  background: #f1f1f1;
+}
+
+.personality-other .pm{
+  background: #5a5a5a;
+  margin-bottom: 50px;
+}
+
+.personality-other .trait-tag p{
+  background: #5a5a5a;
+}
+
+.pm-intro{
+  display: flex;
+  padding: 30px;
+  padding-bottom: 30px;
+}
+
+.wm-intro{
+  padding: 20px;
+}
+
+.wm-intro h5{
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 16px;
+  height: 90px;
+}
+
+.pm-intro img{
+  width: 100px;
+  margin-right: 10px;
+}
+
+.pm-intro-info{
+  margin-top: 10px;
+}
+
+.pm-intro-info .bottom{
+  margin-bottom: 0px;
+}
+
+.pm-intro p, .wm-intro p{
+  color: rgb(190, 190, 190);
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0px;
+}
+
+.wm-intro p{
+  font-size: 14px;
+  text-transform: none;
+  color: rgb(150, 150, 150);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pm-intro h4{
+  color: rgb(255, 255, 255);
+  margin-bottom: 20px;
+}
+
+.pm-body, .wm-body{
+  padding: 30px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+.wm-body{
+  padding: 20px;
+}
+
+.wm-body p{
+  overflow-y: scroll;
+  height: 205px;
 }
 
 .top {
   background-color: rgb(231, 231, 231);
 }
 
-.wm {
-  color: rgb(255, 255, 255);
-  height: 500px;
-  background-color: rgb(156, 156, 156);
-}
-
-.wm h5 {
-  font-size: 18px;
-}
-
-.wine-match,
-.pm-intro {
+.wine-match, .wm-intro-info{
   display: flex;
-  text-align: center;
 }
 
 .col {
