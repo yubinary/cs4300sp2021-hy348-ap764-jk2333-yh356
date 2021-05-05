@@ -32,11 +32,11 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
     return result;
   }
 
-  function renderTooltip(wineInfo) {
+  function renderTooltip(wineInfo, rgbColor) {
     return (
       <Tooltip>
         <div className="RadarChart">
-          <RadarChart wine={wineInfo} />
+          <RadarChart wine={wineInfo} rgb={rgbColor} />
         </div>
       </Tooltip>
 
@@ -63,7 +63,7 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
             <div className="pm-body">
               <div className="trait">
                 <p>Key Similarities:
-                <OverlayTrigger placement="right" overlay={renderTooltip(ls[pm[0].wine])}>
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[pm[0].wine], "160,44,59")}>
                     <AiFillQuestionCircle class="question-mark" />
                   </OverlayTrigger>
                 </p>
@@ -175,7 +175,7 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
               <div className="pm-body">
                 <div className="trait">
                   <p>Key Similarities:
-                <OverlayTrigger placement="right" overlay={renderTooltip(ls[match.wine])}>
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[match.wine], "90,90,90")}>
                       <AiFillQuestionCircle class="question-mark" />
                     </OverlayTrigger>
                   </p>

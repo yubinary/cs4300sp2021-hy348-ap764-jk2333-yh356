@@ -1,7 +1,7 @@
 import React from 'react';
 import { Radar } from 'react-chartjs-2';
 
-export default function RadarChart({ wine }) {
+export default function RadarChart({ wine, rgb }) {
   let wineData = [];
   for (const key in wine) {
     wineData.push(wine[key][0])
@@ -17,8 +17,8 @@ export default function RadarChart({ wine }) {
     datasets: [
       {
         label: "Personality Match (%)",
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(' + rgb + ', 0.2)',
+        borderColor: 'rgb(' + rgb + ")",
         data: wineData
       }
     ]
