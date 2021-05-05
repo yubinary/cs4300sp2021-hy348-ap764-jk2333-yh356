@@ -3,28 +3,32 @@ import { useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Search({
-  name,
   personality,
   flavor,
   scent,
   price,
-  setName,
+  newWM,
+  likedWine,
   setPersonality,
   setFlavor,
   setScent,
   setPrice,
+  setNewWM,
+  setLikedWine
 }) {
   let history = useHistory();
   const [page, setPage] = useState(1);
 
-  function createUrl(name, personality, flavor, scent, price) {
+  function createUrl(personality, flavor, scent, price) {
     let personalityUrl = '';
     for (const key in personality) {
-      personalityUrl += '&' + key + '=' + personality[key];
+      if (key !== "personality1") {
+        personalityUrl += '&' + key + '=' + personality[key];
+      } else {
+        personalityUrl += '?' + key + '=' + personality[key];
+      }
     }
     let url =
-      '?name=' +
-      encodeURI(name) +
       personalityUrl +
       '&flavor=' +
       encodeURI(flavor) +
@@ -40,14 +44,18 @@ export default function Search({
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (
-      personality['personality5'] !== '' &&
+    if (personality['personality5'] !== '' &&
       personality['personality6'] !== '' &&
       personality['personality7'] !== '' &&
       personality['personality8'] !== ''
     ) {
       // turn form values to url params
-      createUrl(name, personality, flavor, scent, price);
+      createUrl(personality, flavor, scent, price);
+      if (newWM) {
+        let obj = {}
+        setNewWM(obj);
+        setLikedWine(obj);
+      }
     } else {
       alert(
         'Please fill out all the inputs for us to determine your perfect matches!'
@@ -56,6 +64,7 @@ export default function Search({
   }
 
   function handleNext(event) {
+    event.preventDefault()
     if (page === 1) {
       if (
         flavor.trim() !== '' &&
@@ -105,7 +114,7 @@ export default function Search({
             type='radio'
             name={i}
             value='1'
-            checked={personality[i] === '1'}
+            checked={[personality[i]] === '1'}
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
@@ -164,7 +173,7 @@ export default function Search({
     if (page === 1) {
       return (
         <>
-          <div class='form-group'>
+          {/* <div class='form-group'>
             <label for='name'> What is your name? </label>
             <input
               name='name'
@@ -175,7 +184,7 @@ export default function Search({
               required
               autoComplete='off'
             />
-          </div>
+          </div> */}
           <div class='form-group'>
             <label for='flavor'>
               Describe your favorite drink (can be non-alcoholic)!
@@ -183,7 +192,7 @@ export default function Search({
             <textarea
               name='flavor'
               class='form-control'
-              rows='3'
+              rows='4'
               value={flavor}
               onChange={(event) => setFlavor(event.target.value)}
               placeholder='Really cold coca-cola during the summer...'
@@ -195,6 +204,7 @@ export default function Search({
             <textarea
               name='scent'
               class='form-control'
+              rows='4'
               value={scent}
               onChange={(event) => setScent(event.target.value)}
               placeholder='Fresh tangerines...'
@@ -219,8 +229,9 @@ export default function Search({
           </div>
           <div class='form-group'>
             <button
+              type="button"
               class='btn btn-outline-dark float-right'
-              onClick={() => handleNext()}
+              onClick={(event) => handleNext(event)}
             >
               Next
             </button>
@@ -230,8 +241,8 @@ export default function Search({
     } else if (page === 2) {
       return (
         <>
-          <p>Rate how well the following statements describe you</p>
           <div class='form-group'>
+            <p>Rate how well the following statements describe you!</p>
             <label for='personality'>You are the life of a party</label>
             {displayRadio('personality1')}
           </div>
@@ -261,8 +272,9 @@ export default function Search({
               Previous
             </button>
             <button
+              type="button"
               class='btn btn-outline-dark float-right'
-              onClick={() => handleNext()}
+              onClick={(event) => handleNext(event)}
             >
               Next
             </button>
@@ -307,7 +319,7 @@ export default function Search({
               Previous
             </button>
             <button type='submit' class='btn btn-dark float-right'>
-              Submit
+              Submit!
             </button>
           </div>
         </>
