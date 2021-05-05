@@ -64,7 +64,7 @@ export default function Search({
   }
 
   function handleNext(event) {
-    event.preventDefault()
+    event.preventDefault();
     if (page === 1) {
       if (
         flavor.trim() !== '' &&
@@ -114,7 +114,7 @@ export default function Search({
             type='radio'
             name={i}
             value='1'
-            checked={[personality[i]] === '1'}
+            checked={personality[i] === '1'}
             onChange={(event) =>
               setPersonality({ ...personality, [i]: event.target.value })
             }
