@@ -2,16 +2,46 @@ import React, { useEffect, useState } from 'react';
 import logo from '../styles/logo.jpg';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import wine from "../styles/wine.png";
+import { AiOutlineHeart, AiFillHeart, AiFillQuestionCircle } from 'react-icons/ai';
+import RadarChart from "./RadarChart.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
-export default function Result({ pm, wm }) {
-  // const [likedWine, setLikedWine] = useState({});
+export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLikedWine }) {
   const URLParams = new URLSearchParams(window.location.search);
-  const [likedWine, setLikedWine] = useState({});
   const [isDisabled, setDisable] = useState(false);
-  const [canPost, setCanPost] = useState(false);
-  const [newWM, setNewWM] = useState({});
+  const [isHover, setHover] = useState(false);
 
-  // setLikedWine(wineDict);
+  useEffect(() => {
+    if (Object.keys(newWM).length === 0) {
+      setDisable(false);
+    }
+  }, [newWM]);
+
+  function displayTraitTags(tags) {
+    let result = [];
+
+    for (let tag of tags) {
+      result.push(
+        <div className="trait-tag">
+          <p>{tag}</p>
+        </div>
+      )
+    }
+    return result;
+  }
+
+  function renderTooltip(wineInfo, rgbColor) {
+    return (
+      <Tooltip>
+        <div className="RadarChart">
+          <RadarChart wine={wineInfo} rgb={rgbColor} />
+        </div>
+      </Tooltip>
+
+    );
+  }
 
   function displayPM() {
     let result = [];
@@ -19,23 +49,28 @@ export default function Result({ pm, wm }) {
     if (pm.length > 0) {
       result.push(
         <>
-          <p>Based on personality...</p>
-          <h3>
-            You are <u>{pm[0].top_wine_percent + '%'}</u> match with{' '}
-            <i>{pm[0].top_wine}</i>
-          </h3>
-          <div class='pm top'>
+          <p className="title">Based on your personality...</p>
+          <div className='pm'>
             <div className='pm-intro'>
-              <h4 className='score'>{pm[0].score + '%'}</h4>
-              <h4>
-                <i>{pm[0].wine}</i>
-              </h4>
+              <img src={wine} />
+              <div className="pm-intro-info">
+                <p>best match</p>
+                <h4>{pm[0].score + '%'}</h4>
+                <p>wine</p>
+                <h4 className="bottom">{pm[0].wine}</h4>
+              </div>
             </div>
-            <p>
-              Your key similarities with this variety:{' '}
-              <b>{pm[0].key_descriptions}</b>
-            </p>
-            <p>{pm[0].description}</p>
+            <div className="pm-body">
+              <div className="trait">
+                <p>Key Similarities:
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[pm[0].wine], "160,44,59")}>
+                    <AiFillQuestionCircle class="question-mark" />
+                  </OverlayTrigger>
+                </p>
+                {displayTraitTags(pm[0].key_descriptions)}
+              </div>
+              <p>{pm[0].description}</p>
+            </div>
           </div>
         </>
       );
@@ -47,60 +82,51 @@ export default function Result({ pm, wm }) {
     if (wm.length > 0) {
       return (
         <div className='wine-match-intro'>
-          <h5>
-            <u>
-              We believe these particular {wm[0].top_wine + 's'} will fit your
-              taste
-            </u>
-          </h5>
-          <p>
-            Not satisfied with your matches? Click like on the wine(s) that you
-            like and submit at the bottom, then we will generate new (hopefully
-            perfect) matches for you!{' '}
+          <p className="title">
+            These particular <span>{wm[0].top_wine + 's'}</span> will fit your
+              taste!
           </p>
-        </div>
+          <p>
+            Not satisfied with your matches? Like the wine(s), then we will generate new matches for you.{' '}
+          </p>
+        </div >
       );
     }
   }
 
   function displayLike(wm, i) {
-    return (
-      <button
-        class={
-          likedWine[wm[i].doc_id]
-            ? 'btn btn-dark w-100'
-            : 'btn btn-outline-dark w-100'
-        }
-        value={wm[i].doc_id}
-        onClick={(event) => {
-          if (likedWine[event.target.value]) {
-            // wineDict[event.target.value] = false;
-            // setLikedWine(wineDict);
-            setLikedWine({ ...likedWine, [event.target.value]: false });
-          } else {
-            // wineDict[event.target.value] = true;
-            // setLikedWine(wineDict);
-            setLikedWine({ ...likedWine, [event.target.value]: true });
-          }
-        }}
-      >
-        {likedWine[wm[i].doc_id] ? 'Unlike' : 'Like'}
-      </button>
-    );
+    if (likedWine[wm[i].doc_id]) {
+      return (
+        <div onClick={() => setLikedWine({ ...likedWine, [wm[i].doc_id]: false })}>
+          <AiFillHeart class="like-button" />
+        </div>
+      );
+    } else {
+      return (
+        <div onClick={() => setLikedWine({ ...likedWine, [wm[i].doc_id]: true })}>
+          <AiOutlineHeart class="like-button" />
+        </div>
+      )
+    }
+
   }
-  function displayWMLeft(wines) {
+
+  function displayWM(wines, start) {
     let result = [];
     if (wines.length > 0) {
-      for (let i = 0; i < wines.length; i += 2) {
+      for (let i = start; i < wines.length; i += 2) {
         result.push(
           <div className='wm'>
-            <h5>
-              <i>{wines[i].wine}</i>
-            </h5>
-            <p>{'$' + wines[i].price}</p>
-            <p>{wines[i].score}% match</p>
-            <p>{wines[i].description}</p>
-            {displayLike(wines, i)}
+            <div className="wm-intro">
+              <h5>{wines[i].wine}</h5>
+              <div className="wm-intro-info">
+                <p>{'$' + wines[i].price}, {wines[i].score}% Match</p>
+                {displayLike(wines, i)}
+              </div>
+            </div>
+            <div className="wm-body">
+              <p>{wines[i].description}</p>
+            </div>
           </div>
         );
       }
@@ -108,55 +134,21 @@ export default function Result({ pm, wm }) {
     return result;
   }
 
-  function newDisplayWMLeft(wines) {
+  function newDisplayWM(wines, start) {
     let result = [];
     if (wines.length > 0) {
-      for (let i = 0; i < wines.length; i += 2) {
+      for (let i = start; i < wines.length; i += 2) {
         result.push(
           <div className='wm'>
-            <h5>
-              <i>{wines[i].wine}</i>
-            </h5>
-            <p>{'$' + wines[i].price}</p>
-            <p>{wines[i].description}</p>
-          </div>
-        );
-      }
-    }
-    return result;
-  }
-
-  function displayWMRight(wines) {
-    let result = [];
-    if (wines.length > 0) {
-      for (let i = 1; i < wines.length; i += 2) {
-        result.push(
-          <div className='wm'>
-            <h5>
-              <i>{wines[i].wine}</i>
-            </h5>
-            <p>{'$' + wines[i].price}</p>
-            <p>{wines[i].score}% match</p>
-            <p>{wines[i].description}</p>
-            {displayLike(wines, i)}
-          </div>
-        );
-      }
-    }
-    return result;
-  }
-
-  function newDisplayWMRight(wines) {
-    let result = [];
-    if (wines.length > 0) {
-      for (let i = 1; i < wines.length; i += 2) {
-        result.push(
-          <div className='wm'>
-            <h5>
-              <i>{wines[i].wine}</i>
-            </h5>
-            <p>{'$' + wines[i].price}</p>
-            <p>{wines[i].description}</p>
+            <div className="wm-intro">
+              <h5>{wines[i].wine}</h5>
+              <div className="wm-intro-info">
+                <p>{'$' + wines[i].price}</p>
+              </div>
+            </div>
+            <div className="wm-body">
+              <p>{wines[i].description}</p>
+            </div>
           </div>
         );
       }
@@ -166,37 +158,66 @@ export default function Result({ pm, wm }) {
 
   function displayPO() {
     let result = [];
-
     if (pm.length > 0) {
-      result.push(
-        <>
-          <h3>Your other matches...</h3>
-        </>
-      );
       for (let match of pm.slice(1)) {
         result.push(
-          <div className='pm'>
-            <div className='pm-intro'>
-              <h4 className='score'>{match.score + '%'}</h4>
-              <h4>
-                <i>{match.wine}</i>
-              </h4>
+          <>
+            <div className='pm'>
+              <div className='pm-intro'>
+                <img src={wine} />
+                <div className="pm-intro-info">
+                  <p>match</p>
+                  <h4>{match.score + '%'}</h4>
+                  <p>wine</p>
+                  <h4 className="bottom">{match.wine}</h4>
+                </div>
+              </div>
+              <div className="pm-body">
+                <div className="trait">
+                  <p>Key Similarities:
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[match.wine], "90,90,90")}>
+                      <AiFillQuestionCircle class="question-mark" />
+                    </OverlayTrigger>
+                  </p>
+                  {displayTraitTags(match.key_descriptions)}
+                </div>
+                <p>{match.description}</p>
+              </div>
             </div>
-            <p>
-              Your key similarities with this variety:{' '}
-              <b>{match.key_descriptions}</b>
-            </p>
-            <p>{match.description}</p>
-          </div>
+          </>
         );
       }
     }
     return result;
   }
 
+  function displayNewMatch() {
+    if (isDisabled) {
+      return (
+        <div className="wine-new-match">
+          <p className="title">Here are your new matches!</p>
+          <div className='wine-match'>
+            <div className='col left'>{newDisplayWM(newWM, 0)}</div>
+            <div className='col right'>{newDisplayWM(newWM, 1)}</div>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <center>
+          <button
+            disabled={isDisabled}
+            onClick={() => handleSubmit()}
+            class='btn btn-dark new-button'>
+            Generate New Matches!
+        </button>
+        </center>
+      );
+    }
+  }
+
   function handleSubmit() {
     setDisable(true);
-    console.log('handleSubmit called');
     let postData = {};
     let flavor = URLParams.get('flavor');
     let scent = URLParams.get('scent');
@@ -211,7 +232,6 @@ export default function Result({ pm, wm }) {
     axios.post(`/api/rocchio`, postData).then(
       (response) => {
         var result = response.data;
-        console.log(result);
         setNewWM(result['new_wine_match']);
       },
       (error) => {
@@ -230,46 +250,31 @@ export default function Result({ pm, wm }) {
       <div className='personality-match'>{displayPM()}</div>
       {displayIntro()}
       {wm.length > 0 ? (
-        <div>
+        <>
           <div className='wine-match'>
-            <div className='col left'>{displayWMLeft(wm)}</div>
-            <div className='col right'>{displayWMRight(wm)}</div>
+            <div className='col left'>{displayWM(wm, 0)}</div>
+            <div className='col right'>{displayWM(wm, 1)}</div>
           </div>
-          <center>
-            <button
-              disabled={isDisabled}
-              onClick={() => handleSubmit()}
-              class='btn btn-secondary'
-            >
-              Click Here for New Matches based on your likes
-            </button>
-          </center>
+          {displayNewMatch()}
+        </>
 
-          {isDisabled ? (
-            <div>
-              <br></br>
-              <center>
-                <h3>Here are your new matches!</h3>
-              </center>
-              <div className='wine-match'>
-                <div className='col left'>{newDisplayWMLeft(newWM)}</div>
-                <div className='col right'>{newDisplayWMRight(newWM)}</div>
-              </div>
-            </div>
-          ) : null}
-          <br></br>
-        </div>
       ) : (
-        <div className='wine-match'>
-          <p>
-            Based on your flavor and scent preferences... <br></br>
-            <br></br> A surprise to be sure, but a welcome one. It appears that
-            no specific bottle of wine is special enough to match your unique
-            personality! Take pride in the fact that there is no one like you!
+          <div className='wine-no-result'>
+            <p className="title">
+              Based on your flavor and scent preferences...
+            </p>
+            <p>
+              A surprise to be sure, but a welcome one. It appears that
+              no specific bottle of wine is special enough to match your unique
+              flavor and scent preferences! Take pride in the fact that there is
+              no one like you!
           </p>
-        </div>
-      )}
-      <div className='personality-other'>{displayPO()}</div>
+          </div>
+        )}
+      <div className='personality-other'>
+        <p className="title">Your other matches...</p>
+        {displayPO()}
+      </div>
     </div>
   );
 }

@@ -492,7 +492,7 @@ def compute_personality(sim_list, reviews):
         result["score"] = str(score)
         result["wine"] = title
         result["description"] = desc
-        result["key_descriptions"] = stringed_traits
+        result["key_descriptions"] = sim_list[i][2]
         results.append(result)
         i += 1
 

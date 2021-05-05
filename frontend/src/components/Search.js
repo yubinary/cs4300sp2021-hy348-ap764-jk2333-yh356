@@ -1,68 +1,101 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function Search({
-  name,
   personality,
   flavor,
   scent,
   price,
-  setName,
+  newWM,
+  likedWine,
   setPersonality,
   setFlavor,
   setScent,
   setPrice,
+  setNewWM,
+  setLikedWine
 }) {
   let history = useHistory();
-  const [displayErrorMessage, setDisplay] = useState(false);
   const [page, setPage] = useState(1);
 
-  // function tonewURL = (search, categories, score, sizes, maturity) => {
-  function createUrl(name, personality, flavor, scent, price) {
-    // check for empty inputs
-    const nameEmpty = name === null || name === '';
-    const perEmpty = personality === null || personality === '';
-    // const perEmpty = personality === null || personality.length === 0
-    const flavorEmpty = flavor === null || flavor === '';
-    const scentEmpty = scent === null || scent === '';
-    const priceEmpty = price === null || price === '';
-
-    if (nameEmpty || perEmpty || flavorEmpty || scentEmpty || priceEmpty) {
-      alert(
-        'You still have some missing inputs for us to find your perfect matches :( '
-      );
-      setDisplay(true);
-    } else if (price < 4 || price > 3300) {
-      alert('The price range should be anywhere between $4 to $3300');
-    } else {
-      let personalityUrl = '';
-      for (const key in personality) {
+  function createUrl(personality, flavor, scent, price) {
+    let personalityUrl = '';
+    for (const key in personality) {
+      if (key !== "personality1") {
         personalityUrl += '&' + key + '=' + personality[key];
+      } else {
+        personalityUrl += '?' + key + '=' + personality[key];
       }
-
-      let url =
-        '?name=' +
-        encodeURI(name) +
-        personalityUrl +
-        '&flavor=' +
-        encodeURI(flavor) +
-        '&scent=' +
-        encodeURI(scent) +
-        '&price=' +
-        encodeURI(price);
-
-      history.push({
-        pathname: '/result/' + url,
-      });
     }
+    let url =
+      personalityUrl +
+      '&flavor=' +
+      encodeURI(flavor) +
+      '&scent=' +
+      encodeURI(scent) +
+      '&price=' +
+      encodeURI(price);
+
+    history.push({
+      pathname: '/result/' + url,
+    });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (personality['personality5'] !== '' &&
+      personality['personality6'] !== '' &&
+      personality['personality7'] !== '' &&
+      personality['personality8'] !== ''
+    ) {
+      // turn form values to url params
+      createUrl(personality, flavor, scent, price);
+      if (newWM) {
+        let obj = {}
+        setNewWM(obj);
+        setLikedWine(obj);
+      }
+    } else {
+      alert(
+        'Please fill out all the inputs for us to determine your perfect matches!'
+      );
+    }
+  }
 
-    // turn form values to url params
-    console.log(name);
-    createUrl(name, personality, flavor, scent, price);
+  function handleNext(event) {
+    event.preventDefault();
+    if (page === 1) {
+      if (
+        flavor.trim() !== '' &&
+        scent.trim() !== '' &&
+        price.trim() !== '' &&
+        parseInt(price.trim()) >= 4 &&
+        parseInt(price.trim()) <= 3300
+      ) {
+        setPage(2);
+      } else {
+        if (parseInt(price.trim()) < 4 || parseInt(price.trim()) > 3300) {
+          alert('Price range must be between $4 to $3300');
+        } else {
+          alert(
+            'Please fill out all the inputs for us to determine your perfect matches!'
+          );
+        }
+      }
+    } else if (page === 2) {
+      if (
+        personality['personality1'] !== '' &&
+        personality['personality2'] !== '' &&
+        personality['personality3'] !== '' &&
+        personality['personality4'] !== ''
+      ) {
+        setPage(3);
+      } else
+        alert(
+          'Please fill out all the inputs for us to determine your perfect matches!'
+        );
+    }
   }
 
   function displayRadio(i) {
@@ -140,7 +173,7 @@ export default function Search({
     if (page === 1) {
       return (
         <>
-          <div class='form-group'>
+          {/* <div class='form-group'>
             <label for='name'> What is your name? </label>
             <input
               name='name'
@@ -151,7 +184,7 @@ export default function Search({
               required
               autoComplete='off'
             />
-          </div>
+          </div> */}
           <div class='form-group'>
             <label for='flavor'>
               Describe your favorite drink (can be non-alcoholic)!
@@ -159,7 +192,7 @@ export default function Search({
             <textarea
               name='flavor'
               class='form-control'
-              rows='3'
+              rows='4'
               value={flavor}
               onChange={(event) => setFlavor(event.target.value)}
               placeholder='Really cold coca-cola during the summer...'
@@ -171,6 +204,7 @@ export default function Search({
             <textarea
               name='scent'
               class='form-control'
+              rows='4'
               value={scent}
               onChange={(event) => setScent(event.target.value)}
               placeholder='Fresh tangerines...'
@@ -195,8 +229,9 @@ export default function Search({
           </div>
           <div class='form-group'>
             <button
+              type="button"
               class='btn btn-outline-dark float-right'
-              onClick={() => setPage(2)}
+              onClick={(event) => handleNext(event)}
             >
               Next
             </button>
@@ -206,8 +241,8 @@ export default function Search({
     } else if (page === 2) {
       return (
         <>
-          <p>Rate how well the following statements describe you</p>
           <div class='form-group'>
+            <p>Rate how well the following statements describe you!</p>
             <label for='personality'>You are the life of a party</label>
             {displayRadio('personality1')}
           </div>
@@ -237,8 +272,9 @@ export default function Search({
               Previous
             </button>
             <button
+              type="button"
               class='btn btn-outline-dark float-right'
-              onClick={() => setPage(3)}
+              onClick={(event) => handleNext(event)}
             >
               Next
             </button>
@@ -283,7 +319,7 @@ export default function Search({
               Previous
             </button>
             <button type='submit' class='btn btn-dark float-right'>
-              Submit
+              Submit!
             </button>
           </div>
         </>

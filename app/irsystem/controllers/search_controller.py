@@ -114,7 +114,7 @@ vocab_to_index = {
 
 @irsystem.route('/search', methods=['GET'])
 def search():
-    name = request.args.get('name')
+    # name = request.args.get('name')
     # personality = request.args.getAll('personality')
     p1 = request.args.get('personality1')
     p2 = request.args.get('personality2')
@@ -159,8 +159,9 @@ def search():
 
         personality_match = compute_personality(wine_scores, df_personality)
         wine_match = compute_wine(wine_scores, total, df, 6, price)
+        legend_score = compute_legend_scores(legend, index, mat, responses)
 
-    return {"personality_match": personality_match, "wine_match": wine_match}
+    return {"personality_match": personality_match, "wine_match": wine_match, "legend_score": legend_score}
 
 
 @irsystem.route('/rocchio', methods=['POST'])
@@ -189,7 +190,8 @@ def rocchio_match():
                                            rel_and_unrel_docs, vocab_to_index)
 
         total = total_score_with_rocchio(flavor_cossim, scent_cossim)
-        new_wine_match = compute_wine_rocchio(variety, total, df, 6, max_price)
+        new_wine_match = compute_wine_rocchio(
+            variety, total, df, 6, max_price, rel_and_unrel_docs)
 
         return {"new_wine_match": new_wine_match}
 
