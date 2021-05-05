@@ -3,12 +3,15 @@ import logo from '../styles/logo.jpg';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import wine from "../styles/wine.png";
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
+import { AiOutlineHeart, AiFillHeart, AiFillQuestionCircle } from 'react-icons/ai';
+import RadarChart from "./RadarChart.js";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLikedWine }) {
   const URLParams = new URLSearchParams(window.location.search);
   const [isDisabled, setDisable] = useState(false);
-  // const [canPost, setCanPost] = useState(false);
+  const [isHover, setHover] = useState(false);
 
   useEffect(() => {
     if (Object.keys(newWM).length === 0) {
@@ -28,6 +31,18 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
     }
     return result;
   }
+
+  function renderTooltip(wineInfo) {
+    return (
+      <Tooltip>
+        <div className="RadarChart">
+          <RadarChart wine={wineInfo} />
+        </div>
+      </Tooltip>
+
+    );
+  }
+
   function displayPM() {
     let result = [];
 
@@ -47,13 +62,14 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
             </div>
             <div className="pm-body">
               <div className="trait">
-                <p>Key Similarities:</p>
+                <p>Key Similarities:
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[pm[0].wine])}>
+                    <AiFillQuestionCircle class="question-mark" />
+                  </OverlayTrigger>
+                </p>
                 {displayTraitTags(pm[0].key_descriptions)}
               </div>
               <p>{pm[0].description}</p>
-              {/* <div className="RadarChart">
-              <RadarChart wine={ls[pm[0].wine]} />
-            </div> */}
             </div>
           </div>
         </>
@@ -158,13 +174,14 @@ export default function Result({ pm, wm, ls, newWM, setNewWM, likedWine, setLike
               </div>
               <div className="pm-body">
                 <div className="trait">
-                  <p>Key Similarities:</p>
-                  {displayTraitTags(pm[0].key_descriptions)}
+                  <p>Key Similarities:
+                <OverlayTrigger placement="right" overlay={renderTooltip(ls[match.wine])}>
+                      <AiFillQuestionCircle class="question-mark" />
+                    </OverlayTrigger>
+                  </p>
+                  {displayTraitTags(match.key_descriptions)}
                 </div>
-                <p>{pm[0].description}</p>
-                {/* <div className="RadarChart">
-           <RadarChart wine={ls[pm[0].wine]} />
-         </div> */}
+                <p>{match.description}</p>
               </div>
             </div>
           </>
