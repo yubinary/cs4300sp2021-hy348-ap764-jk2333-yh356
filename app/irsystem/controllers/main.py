@@ -13,17 +13,6 @@ print("Precomputing resources...")
 inv_ind, idf, norms = precompute(df["toks"])
 scores = get_scores(df["points"])
 
-#toks = []
-#points = []
-# for i in df["toks"].keys():
-#    toks.append(i)
-# for i in df["points"].keys():
-#    points.append(i)
-#toks = set(toks)
-#points = set(points)
-# if toks == points:
-#    print("yay")
-
 # Personality data
 tokenized_personality = tokenizer_personality_data(df_personality)
 tokenized_variety = tokenizer_personality_variety(df_personality)
@@ -53,6 +42,9 @@ while not quit:
     scent_result = cossim_dict(scent, inv_ind, idf, norms)
 
     total = total_score(flavor_result, scent_result, scores)
+
+    if len(total) == 0:
+        total = total_score(edit_dict(flavor, scent, df), {}, scores)
 
     display_personality(name, wine_scores, df_personality)
     display(name, wine_scores, total, df, 5, max_price)
