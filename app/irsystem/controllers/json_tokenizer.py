@@ -34,7 +34,7 @@ varieties = [
 ]
 df = df[df['variety'].isin(varieties)]
 
-df = df.sample(n=6150)
+df = df.sample(n=6100)
 
 # Tokenize description and add to df as "toks"
 toks = []
