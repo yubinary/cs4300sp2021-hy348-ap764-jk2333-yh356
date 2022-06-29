@@ -2,6 +2,8 @@
 
 The goal of the app is to recommend optimal wine match based on your personality. We’ll be your personal sommelier!
 
+For a demo video, click the [link](https://www.youtube.com/watch?v=jWAWgZRYmY4).
+
 ## Application 
 * Input:
 The input to our system will be answers to personality questions. Another possible input would be the price range that the user wants their wine to be in, but for now we are thinking of this input as an extension if we finish our main goal early. 
